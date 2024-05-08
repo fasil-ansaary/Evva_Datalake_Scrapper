@@ -212,6 +212,13 @@ class Meals_on_wheels_scrapper:
 
             for i in address:
                 self.addresses.append(i.text)
+                if len(i) > 20:
+                    shortened_address = i.text[:20]
+                    get_coords = get_coordinates(shortened_address, [])
+                else:
+                    get_coords = get_coordinates(i.text, [])
+                self.lattitude.append(get_coords[0])
+                self.longitude.append(get_coords[1])
 
             for i in contact_number:
                 self.contact_numbers.append(i.text)
@@ -220,15 +227,6 @@ class Meals_on_wheels_scrapper:
                 for j in self.contact_numbers:
                     if i == j:
                         self.addresses.remove(i)
-            
-            for i in self.addresses:
-                if len(i) > 20:
-                    shortened_address = i[:20]
-                    get_coords = get_coordinates(shortened_address, [])
-                else:
-                    get_coords = get_coordinates(i, [])
-                self.lattitude.append(get_coords[0])
-                self.longitude.append(get_coords[1])
             
         except NoSuchElementException:
             logger.info(constants.NoSuchElementExceptionLog)

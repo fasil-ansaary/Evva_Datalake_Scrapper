@@ -223,10 +223,10 @@ class Meals_on_wheels_scrapper:
             for i in contact_number:
                 self.contact_numbers.append(i.text)
 
-            for i in self.addresses:
-                for j in self.contact_numbers:
-                    if i == j:
-                        self.addresses.remove(i)
+            # for i in self.addresses:
+            #     for j in self.contact_numbers:
+            #         if i == j:
+            #             self.addresses.remove(i)
             
         except NoSuchElementException:
             logger.info(constants.NoSuchElementExceptionLog)

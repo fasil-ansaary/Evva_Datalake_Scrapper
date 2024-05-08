@@ -217,7 +217,8 @@ class Meals_on_wheels_scrapper:
                         self.addresses.remove(i)
             
             for i in self.addresses:
-                lst = find_city_state_from_zip(zip, [])
+                lst = []
+                lst = find_city_state_from_zip(zip, lst)
                 self.city.append(lst[0])
                 self.state.append(lst[1])
                 if len(i) > 20:

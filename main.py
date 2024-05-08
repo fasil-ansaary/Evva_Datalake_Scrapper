@@ -163,7 +163,7 @@ class Meals_on_wheels_scrapper:
                         constants.Contact: self.contact_numbers[i],
                         constants.City: self.city[i],
                         constants.State: self.state[i],
-                        constants.Zipcode: zip,
+                        constants.Zipcode: str(zip),
                         constants.Lattitude: self.lattitude[i],
                         constants.Longitude: self.longitude[i]                   
                     }

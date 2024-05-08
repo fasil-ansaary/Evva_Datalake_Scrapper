@@ -291,6 +291,6 @@ if __name__ == '__main__':
     meals_on_wheels_scrapper = Meals_on_wheels_scrapper()
     caring_scrapping = Caring_scrapper()
     
-    geriatrics_scrapper.run_geriatrics_scrapper()
+    # geriatrics_scrapper.run_geriatrics_scrapper()
     meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
     caring_scrapping.run_caring_scrapper()

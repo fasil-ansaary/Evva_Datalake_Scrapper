@@ -25,4 +25,4 @@ def get_coordinates(address, list):
         list.extend([latitude, longitude])
         return list
     else:
-        raise ValueError(constants.value_error_message)
+        return ['Not Found', 'Not Found']

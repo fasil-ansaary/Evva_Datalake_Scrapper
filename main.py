@@ -212,7 +212,7 @@ class Meals_on_wheels_scrapper:
 
             for i in address:
                 self.addresses.append(i.text)
-                if len(i) > 20:
+                if len(i.text) > 20:
                     shortened_address = i.text[:20]
                     get_coords = get_coordinates(shortened_address, [])
                 else:

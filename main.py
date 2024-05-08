@@ -152,7 +152,7 @@ class Meals_on_wheels_scrapper:
                     self.scrape_mow_info(my_url, zip)
                     bar()
         except NoSuchElementException:
-            logger.info(constants.NoSuchElementExceptionLog)
+            logger.info(f"No service available at {zip} zip code")
         finally:
             new_data = []
             for i in range(len(self.names)):
@@ -229,7 +229,7 @@ class Meals_on_wheels_scrapper:
             #             self.addresses.remove(i)
             
         except NoSuchElementException:
-            logger.info(constants.NoSuchElementExceptionLog)
+            logger.info(f"No service available at {zip} zip code")
         
             
 

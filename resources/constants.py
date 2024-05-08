@@ -10,7 +10,7 @@ write_mode = 'w'
 csv_extension = ".csv"
 file_path = "/Users/fasil/Desktop/evva/"
 caretype_to_url_mapper = {
-    # 'Assisted Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=assisted-living&location=",
+    'Assisted Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=assisted-living&location=",
     'Memory Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=memory-care-facilities&location=",
     'Adult Day Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=adult-day-care&location=",
     'Independent Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=independent-living&location=",

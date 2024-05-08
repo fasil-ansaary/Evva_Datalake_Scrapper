@@ -229,7 +229,7 @@ class Meals_on_wheels_scrapper:
             #             self.addresses.remove(i)
             
         except NoSuchElementException:
-            logger.info(f"No service available at {','.join(find_city_state_from_zip(zip)), zip} zip code")
+            logger.info(f"No service available at {','.join(find_city_state_from_zip(zip,[])), zip} zip code")
         
             
 

@@ -147,7 +147,7 @@ class Meals_on_wheels_scrapper:
         self.driver = webdriver.Chrome(options=self.options)
         try:
             with alive_bar(len(zipcodes)) as bar:            
-                for zip in zipcodes:
+                for zip in zipcodes[:10]:
                     my_url = url_updater(constants.mow_url, zip)
                     self.scrape_mow_info(my_url, zip)
                     bar()

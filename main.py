@@ -204,11 +204,14 @@ class Meals_on_wheels_scrapper:
 
             for i in name:
                 self.names.append(i.text)
+            
+
+            for i in contact_number:
+                self.contact_numbers.append(i.text)
                 lst = []
                 lst = find_city_state_from_zip(zip, lst)
                 self.city.append(lst[0])
                 self.state.append(lst[1])
-                
 
             for i in address:
                 self.addresses.append(i.text)
@@ -219,14 +222,11 @@ class Meals_on_wheels_scrapper:
                     get_coords = get_coordinates(i.text, [])
                 self.lattitude.append(get_coords[0])
                 self.longitude.append(get_coords[1])
-
-            for i in contact_number:
-                self.contact_numbers.append(i.text)
-
-            # for i in self.addresses:
-            #     for j in self.contact_numbers:
-            #         if i == j:
-            #             self.addresses.remove(i)
+                
+            for i in self.addresses:
+                for j in self.contact_numbers:
+                    if i == j:
+                        self.addresses.remove(i)
             
         except NoSuchElementException:
             logger.info(f"No service available at {','.join(find_city_state_from_zip(zip,[])), zip} zip code")

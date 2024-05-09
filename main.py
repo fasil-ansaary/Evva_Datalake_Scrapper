@@ -223,10 +223,10 @@ class Meals_on_wheels_scrapper:
                 self.lattitude.append(get_coords[0])
                 self.longitude.append(get_coords[1])
                 
-            for i in self.addresses:
-                for j in self.contact_numbers:
-                    if i == j:
-                        self.addresses.remove(i)
+            # for i in self.addresses:
+            #     for j in self.contact_numbers:
+            #         if i == j:
+            #             self.addresses.remove(i)
             
         except NoSuchElementException:
             logger.info(f"No service available at {','.join(find_city_state_from_zip(zip,[])), zip} zip code")

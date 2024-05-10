@@ -241,10 +241,12 @@ class Caring_scrapper:
             self.options.headless = True
             self.driver = webdriver.Chrome(options=self.options)
             scrapped_list = []
-            for zip in zipcodes:
-                my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
-                # Call the function to scrape information
-                scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)
+            with alive_bar(len(zipcodes)) as bar:            
+                for zip in zipcodes:
+                    my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
+                    # Call the function to scrape information
+                    scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)
+                    bar()
             # Quit the browser
             self.driver.quit()
             with open(constants.file_path+i+constants.csv_extension, mode=constants.write_mode) as csvfile:

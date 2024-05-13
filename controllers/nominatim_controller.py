@@ -15,7 +15,7 @@ def get_coordinates(address, list):
     Returns:
         list: list of scrapped details along with the coordinates.
     """
-    geocoder = Nominatim(user_agent="MyApp")
+    geocoder = Nominatim(user_agent="evva-datalake-scrapper")
 
     location = geocoder.geocode(address)
     if location:

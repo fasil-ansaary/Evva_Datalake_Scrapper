@@ -360,17 +360,17 @@ class Community_resource_scrapper:
                         self.contact.append(ph)
                     except:
                         self.contact.append("NIL")
-                WebDriverWait(driver, 20).until(
+                WebDriverWait(self.driver, 20).until(
                         EC.presence_of_element_located((By.LINK_TEXT, 'Next')))
-                driver.find_element(By.LINK_TEXT, 'Next').click()
+                self.driver.find_element(By.LINK_TEXT, 'Next').click()
             except Exception as e:
                 logger.info(f"Scrapping completed for zip {zip}")
                 break
 
-        length = len(links)
+        length = len(self.links)
         s = 0
         while s < length:
-                response = requests.get(links[s])
+                response = requests.get(self.links[s])
                 soup = BeautifulSoup(response.content, "html.parser")
                 for h2 in soup.find_all('h2'):
                     h2.string = h2.string + '-'

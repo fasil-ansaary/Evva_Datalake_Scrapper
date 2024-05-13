@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.support.select import Select
 from controllers.state_city_identifier import find_city_state_from_zip
-from controllers.mapbox_controller import get_coordinates
+from controllers.nominatim_controller import get_coordinates
 from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater

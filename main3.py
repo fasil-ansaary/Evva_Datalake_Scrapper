@@ -6,14 +6,19 @@ import csv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from controllers.state_city_identifier import find_city_state_from_zip
 from controllers.nominatim_controller import get_coordinates
 from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater
+from bs4 import BeautifulSoup
+import requests
 import warnings
+import time
 
 # Ignore all warnings
 warnings.filterwarnings(constants.ignore)
@@ -286,11 +291,146 @@ class Caring_scrapper:
         return scrapped_list
     
     
+class Community_resource_scrapper:
+    def __init__(self):
+        self.names =[]
+        self.links =[]
+        self.lattitude = []
+        self.longitude = []
+        self.addresses = []
+        self.contact = []
+        self.gen_information_data= []
+        self.staff_information_data = []
+        self.service_offered_data = []
+        self.financial_information_data = []
+        self.availability_information_data = []
+        self.pricing_availability_data = []
+        self.overview_information_data = []
+    
+    def community_resource_scrapper(self):
+        for i in constants.community_resource_finder_url_mapper:
+            self.options = Options()
+            self.options.headless = True
+            self.driver = webdriver.Chrome(options=self.options)
+            for zip in zipcodes:
+                com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                self.com_res_url_scrapper(com_res_url, zip)
+                city = find_city_state_from_zip(zip, [])[0]
+            df = pd.DataFrame(
+                { 
+                 'Program' : i, 'City':city, 'Zipcode':zip,
+                 'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
+                 'Address': self.addresses, 'General Information': self.gen_information_data, 
+                 'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
+                 'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
+                 'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
+                 'Lattitude': self.lattitude, 'Longitude': self.longitude
+                 })
+            df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+    def com_res_url_scrapper(self, url, zip):
+        self.driver.get(url)
+        while True:
+            try:
+                pagesource = self.driver.page_source
+                soup = BeautifulSoup(pagesource, 'html.parser')
+                boxs = soup.find_all('div', {'class': 'ibox float-e-margins careseeker-result'})
+                for box in boxs:
+                    l = 0
+                    #print(box)
+                    try:                        
+                        self.names.append(box.find('a').text.strip())
+                    except:
+                        self.names.append("NIL")
+                    try:                        
+                        l = "https://www.communityresourcefinder.org"+box.find('a')['href']
+                        self.links.append(l)
+                    except:
+                        self.links.append("NIL")
+                    try:
+                        add = box.find('input', {'id': 'Address'})['value']
+                        self.addresses.append(add)
+                        coordinates = []
+                        coordinates = get_coordinates(add[:20], coordinates)
+                        self.lattitude.append(coordinates[0])
+                        self.lattitude.append(coordinates[1])
+                    except:
+                        self.addresses.append("NIL")
+                    try:
+                        ph = box.find('i', {'class': 'fa fa-phone'}).findNext('a').text
+                        self.contact.append(ph)
+                    except:
+                        self.contact.append("NIL")
+                WebDriverWait(driver, 20).until(
+                        EC.presence_of_element_located((By.LINK_TEXT, 'Next')))
+                driver.find_element(By.LINK_TEXT, 'Next').click()
+            except Exception as e:
+                logger.info(f"Scrapping completed for zip {zip}")
+                break
+
+        length = len(links)
+        s = 0
+        while s < length:
+                response = requests.get(links[s])
+                soup = BeautifulSoup(response.content, "html.parser")
+                for h2 in soup.find_all('h2'):
+                    h2.string = h2.string + '-'
+                    
+                time.sleep(5)
+                try:       
+                    general_info = soup.find("div", id= "tabS2P1").get_text(strip=True, separator=' ')
+                    self.gen_information_data.append(general_info) 
+                except:
+                    self.gen_information_data.append("nil")
+                try:            
+                    staff_info = soup.find("div", id= "tabS3P1").get_text(strip=True, separator=' ')
+                    self.staff_information_data.append(staff_info) 
+                except:
+                    self.staff_information_data.append("nil") 
+                try:            
+                    services_info= soup.find("div",id= "tabS6P1").get_text(strip=True, separator=' ')
+                    self.service_offered_data.append(services_info)
+                except:
+                    self.service_offered_data.append("nil")
+                
+                try:    
+                    pricing_availability_info = soup.find("div", id= "tabS9P1").get_text(strip=True, separator=' ')
+                    self.pricing_availability_data.append(pricing_availability_info)
+                except:
+                    self.pricing_availability_data.append("nil")
+                    
+                try:
+                    financial_info = soup.find("div", id= "tabS4P1").get_text(strip=True, separator=' ')
+                    self.financial_information_data.append(financial_info)
+                except:
+                    self.financial_information_data.append("nil")    
+                
+                try:
+                    availability_info = soup.find("div", id= "tabS5P1").get_text(strip=True, separator=' ')
+                    self.availability_information_data.append(availability_info)
+                except:
+                    self.availability_information_data.append("nil")
+                try:
+                    overview_info = soup.find("div", id= "tabP16").get_text(strip=True, separator=' ')
+                    self.overview_information_data.append(overview_info)
+                except:
+                    self.overview_information_data.append("nil")
+                s+=1
+                
+                
+        
+        
 if __name__ == '__main__':
     geriatrics_scrapper = Geriatrics_scrapper()
     meals_on_wheels_scrapper = Meals_on_wheels_scrapper()
     caring_scrapping = Caring_scrapper()
+    community_resource_scrapper = Community_resource_scrapper()
     
     #geriatrics_scrapper.run_geriatrics_scrapper()
-    meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
-    # caring_scrapping.run_caring_scrapper()
+    #meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
+    #caring_scrapping.run_caring_scrapper()
+    community_resource_scrapper.community_resource_scrapper()
+    
+    
+    
+    
+    

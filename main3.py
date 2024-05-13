@@ -308,7 +308,7 @@ class Community_resource_scrapper:
         self.overview_information_data = []
     
     def community_resource_scrapper(self):
-        with alive_bar(len(zipcodes)) as bar:  
+        with alive_bar(len(constants.community_resource_finder_url_mapper)) as bar:
             for i in constants.community_resource_finder_url_mapper:
                 self.options = Options()
                 self.options.headless = True
@@ -328,8 +328,8 @@ class Community_resource_scrapper:
                     'Lattitude': self.lattitude, 'Longitude': self.longitude
                     })
                 df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
-            logger.info(constants.scrape_message+str(i))
-            bar()
+                bar()
+            logger.info(constants.scrape_message+str(i))            
     def com_res_url_scrapper(self, url, zip):
         self.driver.get(url)
         while True:

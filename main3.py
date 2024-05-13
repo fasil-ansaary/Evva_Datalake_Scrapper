@@ -308,25 +308,30 @@ class Community_resource_scrapper:
         self.overview_information_data = []
     
     def community_resource_scrapper(self):
-        for i in constants.community_resource_finder_url_mapper:
-            self.options = Options()
-            self.options.headless = True
-            self.driver = webdriver.Chrome(options=self.options)
-            for zip in zipcodes:
-                com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                self.com_res_url_scrapper(com_res_url, zip)
-                city = find_city_state_from_zip(zip, [])[0]
-            df = pd.DataFrame(
-                { 
-                 'Program' : i, 'City':city, 'Zipcode':zip,
-                 'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                 'Address': self.addresses, 'General Information': self.gen_information_data, 
-                 'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
-                 'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
-                 'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
-                 'Lattitude': self.lattitude, 'Longitude': self.longitude
-                 })
-            df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+        with alive_bar(len(zipcodes)) as bar:  
+            for i in constants.community_resource_finder_url_mapper:
+                self.options = Options()
+                self.options.headless = True
+                self.driver = webdriver.Chrome(options=self.options)
+                with alive_bar(len(zipcodes)) as bar2:          
+                    for zip in zipcodes:
+                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                        self.com_res_url_scrapper(com_res_url, zip)
+                        city = find_city_state_from_zip(zip, [])[0]
+                    bar2()
+                df = pd.DataFrame(
+                    { 
+                    'Program' : i, 'City':city, 'Zipcode':zip,
+                    'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
+                    'Address': self.addresses, 'General Information': self.gen_information_data, 
+                    'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
+                    'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
+                    'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
+                    'Lattitude': self.lattitude, 'Longitude': self.longitude
+                    })
+                df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+            logger.info(constants.scrape_message+str(i))
+            bar()
     def com_res_url_scrapper(self, url, zip):
         self.driver.get(url)
         while True:

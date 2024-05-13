@@ -313,12 +313,10 @@ class Community_resource_scrapper:
                 self.options = Options()
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)
-                with alive_bar(len(zipcodes)) as bar2:          
-                    for zip in zipcodes:
-                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, zip)
-                        city = find_city_state_from_zip(zip, [])[0]
-                    bar2()
+                for zip in zipcodes:
+                    com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                    self.com_res_url_scrapper(com_res_url, zip)
+                    city = find_city_state_from_zip(zip, [])[0]
                 df = pd.DataFrame(
                     { 
                     'Program' : i, 'City':city, 'Zipcode':zip,

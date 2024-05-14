@@ -319,7 +319,16 @@ class Community_resource_scrapper:
                     self.driver = webdriver.Chrome(options=self.options)                    
                     for zip in zipcodes[:2]:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, i)                                            
+                        self.com_res_url_scrapper(com_res_url, i)                        
+                    print(
+                        len(self.program),
+                        len(self.names),
+                        len(self.links),
+                        len(self.contact),
+                        len(self.addresses), 
+                        len(self.lattitude),
+                        len(self.longitude)
+                    )
                     df = pd.DataFrame(
                         { 
                         'Program' : self.program,

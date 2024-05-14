@@ -327,6 +327,7 @@ class Community_resource_scrapper:
                     'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
                     'Lattitude': self.lattitude, 'Longitude': self.longitude
                     })
+                print(df)
                 df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
                 bar()
             logger.info(constants.scrape_message+str(i))            

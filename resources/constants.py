@@ -16,7 +16,6 @@ caretype_to_url_mapper = {
     'Independent Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=independent-living&location=",
     'Senior Apartments' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=senior-apartments&location=",
     'Nursing Homes' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=nursing-homes&location=",
-    'In Home Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=in-home-care&location=",
     'Home Health Agency' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=home-health-agencies&location=",
     'Geriatric Care Managers CAR' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=geriatric-care-managers&location=",
     

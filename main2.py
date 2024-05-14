@@ -256,6 +256,10 @@ class Caring_scrapper:
             
                 # Write data
                 writer.writerows(scrapped_list)
+            
+            df = pd.read_csv(constants.file_path+i+constants.csv_extension)
+            df_cleaned = df.dropna(subset=['Longitude'])
+            df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
 
             logger.info(constants.scrape_message+str(i))
     

@@ -315,10 +315,10 @@ class Community_resource_scrapper:
                     self.options = Options()
                     self.options.headless = True
                     self.driver = webdriver.Chrome(options=self.options)
+                    self.program.append(i)
                     for zip in zipcodes[:2]:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, zip)
-                        self.program.append(i)
+                        self.com_res_url_scrapper(com_res_url, zip)                        
                     print(
                         len(self.program),
                         len(self.names),

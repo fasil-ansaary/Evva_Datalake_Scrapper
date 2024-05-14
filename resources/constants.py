@@ -18,7 +18,7 @@ caretype_to_url_mapper = {
     'Nursing Homes' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=nursing-homes&location=",
     'In Home Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=in-home-care&location=",
     'Home Health Agency' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=home-health-agencies&location=",
-    'Geriatric Care Managers' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=geriatric-care-managers&location=",
+    'Geriatric Care Managers CAR' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=geriatric-care-managers&location=",
     
 }
 alive_progress_logger = 'alive_progress'
@@ -29,12 +29,24 @@ scrape_message = "Successfully scrapped for care type "
 community_resource_finder_url_mapper = {    
     "Alzheimer Association Chapters" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=84&location=",
     "Alzheimer Early Stage Programs" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=94&location=",
+    "AARP Events" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=89&location=",
+    "Adult Day Care CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=1&location=",
+    "Alzheimer Education Programs" :"https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=93&location=",
+    "Relocation Advisors" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=48&location=",
     "AARP State Offices" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=87&location=",
     "Transportation" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=64&location=",
     "Skilled Nursing" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=2&location=",
     "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
     "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
-    "Area Agency on Aging" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location="
+    "Area Agency on Aging" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location=",
+    "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
+    "Independent Living CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=28&location=",
+    "Home Health Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=17&location=",
+    "Home Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location=",
+    "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
+    "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
+    "Geriatric Care Managers CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
+    "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
 }
 
 state_id = 'state_id'

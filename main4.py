@@ -302,29 +302,26 @@ class Community_resource_scrapper:
         self.longitude=[]
     
     def community_resource_scrapper(self):
-        c = 0
         with alive_bar(len(constants.community_resource_finder_url_mapper)) as bar:
             for i in constants.community_resource_finder_url_mapper:
-                if c < 1:
-                    c += 1
-                    self.options = Options()
-                    self.options.headless = True
-                    self.driver = webdriver.Chrome(options=self.options)                    
-                    for zip in zipcodes[:2]:
-                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, i)                                            
-                    df = pd.DataFrame(
-                        { 
-                        'Program' : self.program,
-                        'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                        'Address': self.addresses, 'Lattitude': self.lattitude, 'Longitude': self.longitude,
-                        })
-                    df.drop_duplicates(subset=['Address'], inplace=True)
-                    print(df)
-                    df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
-                    logger.info(constants.scrape_message+str(i))   
-                    self.clearing_lists()
-                    bar()    
+                self.options = Options()
+                self.options.headless = True
+                self.driver = webdriver.Chrome(options=self.options)                    
+                for zip in zipcodes:
+                    com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                    self.com_res_url_scrapper(com_res_url, i)                                            
+                df = pd.DataFrame(
+                    { 
+                    'Program' : self.program,
+                    'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
+                    'Address': self.addresses, 'Lattitude': self.lattitude, 'Longitude': self.longitude,
+                    })
+                df.drop_duplicates(subset=['Address'], inplace=True)
+                print(df)
+                df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+                logger.info(constants.scrape_message+str(i))   
+                self.clearing_lists()
+                bar()    
     
     def clearing_lists(self):
         self.names.clear()

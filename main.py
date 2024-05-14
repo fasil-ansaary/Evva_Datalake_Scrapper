@@ -14,6 +14,7 @@ from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater
 import warnings
+import asyncio
 
 # Ignore all warnings
 warnings.filterwarnings(constants.ignore)
@@ -234,7 +235,7 @@ class Meals_on_wheels_scrapper:
             
 
 class Caring_scrapper:
-    def run_caring_scrapper(self):
+    async def run_caring_scrapper(self):
         for i in constants.caretype_to_url_mapper:
             # Set up Selenium
             self.options = Options()
@@ -245,7 +246,7 @@ class Caring_scrapper:
                 for zip in zipcodes[:2]:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
-                    scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)
+                    scrapped_list=await self.scrape_care_type_info(my_url, scrapped_list, zip, i)
                     bar()
             # Quit the browser
             self.driver.quit()
@@ -293,4 +294,4 @@ if __name__ == '__main__':
     
     #geriatrics_scrapper.run_geriatrics_scrapper()
     # meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
-    caring_scrapping.run_caring_scrapper()
+    asyncio.run(caring_scrapping.run_caring_scrapper())

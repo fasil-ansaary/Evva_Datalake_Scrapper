@@ -3,8 +3,6 @@ import pandas as pd
 from alive_progress import alive_bar
 import logging
 import csv
-import aiohttp
-from io import StringIO
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -16,7 +14,6 @@ from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater
 import warnings
-import asyncio
 
 # Ignore all warnings
 warnings.filterwarnings(constants.ignore)
@@ -244,26 +241,25 @@ class Caring_scrapper:
             self.options.headless = True
             self.driver = webdriver.Chrome(options=self.options)
             scrapped_list = []
-            with alive_bar(len(zipcodes)) as bar:            
+            with alive_bar(len(zipcodes[:2])) as bar:            
                 for zip in zipcodes[:2]:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
-                    scrapped_list= asyncio.run(self.scrape_care_type_info(my_url, scrapped_list, zip, i))
+                    scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)
                     bar()
             # Quit the browser
             self.driver.quit()
-            csv_file = StringIO(scrapped_list)
             with open(constants.file_path+i+constants.csv_extension, mode=constants.write_mode) as csvfile:
                 writer = csv.writer(csvfile)
                 # Write header
                 writer.writerow(constants.header)
             
                 # Write data
-                writer.writerows(csv_file)
+                writer.writerows(scrapped_list)
 
             logger.info(constants.scrape_message+str(i))
     
-    async def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
+    def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
         self.driver.get(url)
 
         # Wait for the entire page to be loaded
@@ -285,7 +281,7 @@ class Caring_scrapper:
         lst.pop()
         lst = find_city_state_from_zip(zip, lst)
         lst.append(zip)
-        lst = await get_coordinates(lst[1], lst)    
+        lst = get_coordinates(lst[1], lst)    
         scrapped_list.append(lst)
         return scrapped_list
     

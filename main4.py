@@ -319,14 +319,18 @@ class Community_resource_scrapper:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
                         self.com_res_url_scrapper(com_res_url, zip)
                         self.program.append(i)
+                    print(
+                        len(self.program),
+                        len(self.names),
+                        len(self.links),
+                        len(self.contact),
+                        len(self.addresses)
+                    )
                     df = pd.DataFrame(
                         { 
                         'Program' : self.program,
                         'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                        'Address': self.addresses, 'General Information': self.gen_information_data, 
-                        'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
-                        'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
-                        'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,                        
+                        'Address': self.addresses
                         })
                     print(df)
                     df.to_csv(constants.file_path+i+constants.csv_extension, index=False)

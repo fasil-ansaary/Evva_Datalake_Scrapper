@@ -335,6 +335,7 @@ class Community_resource_scrapper:
                         'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
                         'Address': self.addresses, 'Lattitude': self.lattitude, 'Longitude': self.longitude,
                         })
+                    df.drop_duplicates(subset=['Address'], inplace=True)
                     print(df)
                     df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
                     bar()

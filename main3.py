@@ -353,7 +353,7 @@ class Community_resource_scrapper:
                         add = box.find('input', {'id': 'Address'})['value']
                         self.addresses.append(add)
                         coordinates = []
-                        coordinates = get_coordinates(add[:20], coordinates)
+                        coordinates = get_coordinates(add, coordinates)
                         self.lattitude.append(coordinates[0])
                         self.lattitude.append(coordinates[1])
                     except:

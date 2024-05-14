@@ -4,6 +4,7 @@ from alive_progress import alive_bar
 import logging
 import csv
 import aiohttp
+from io import StringIO
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -251,13 +252,14 @@ class Caring_scrapper:
                     bar()
             # Quit the browser
             self.driver.quit()
+            csv_file = StringIO(scrapped_list)
             with open(constants.file_path+i+constants.csv_extension, mode=constants.write_mode) as csvfile:
                 writer = csv.writer(csvfile)
                 # Write header
                 writer.writerow(constants.header)
             
                 # Write data
-                writer.writerows(scrapped_list)
+                writer.writerows(csv_file)
 
             logger.info(constants.scrape_message+str(i))
     

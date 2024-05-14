@@ -321,7 +321,7 @@ class Community_resource_scrapper:
                         self.program.append(i)
                     df = pd.DataFrame(
                         { 
-                        'Program' : self.program, 'Zipcode':zip,
+                        'Program' : self.program,
                         'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
                         'Address': self.addresses, 'General Information': self.gen_information_data, 
                         'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
@@ -365,8 +365,7 @@ class Community_resource_scrapper:
                 WebDriverWait(self.driver, 20).until(
                         EC.presence_of_element_located((By.LINK_TEXT, 'Next')))
                 self.driver.find_element(By.LINK_TEXT, 'Next').click()
-            except Exception as e:
-                logger.info(f"Scrapping completed for zip {zip}")
+            except Exception as e:                
                 break
 
         length = len(self.links)

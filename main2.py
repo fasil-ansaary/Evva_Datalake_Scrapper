@@ -259,8 +259,8 @@ class Caring_scrapper:
                 writer.writerows(scrapped_list)
             
             df = pd.read_csv(constants.file_path+i+constants.csv_extension)
-            df_cleaned = df.dropna(subset=['Longitude'])
-            df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+            # df_cleaned = df.dropna(subset=['Longitude'])
+            # df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
             logger.info(constants.scrape_message+str(i))            
         
     def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
@@ -285,7 +285,7 @@ class Caring_scrapper:
         lst.pop()
         lst = find_city_state_from_zip(zip, lst)
         lst.append(zip)
-        lst = get_coordinates(lst[1], lst)    
+        # lst = get_coordinates(lst[1], lst)    
         scrapped_list.append(lst)
         return scrapped_list
     

@@ -296,14 +296,7 @@ class Community_resource_scrapper:
         self.names =[]
         self.links =[]
         self.addresses = []
-        self.contact = []
-        self.gen_information_data= []
-        self.staff_information_data = []
-        self.service_offered_data = []
-        self.financial_information_data = []
-        self.availability_information_data = []
-        self.pricing_availability_data = []
-        self.overview_information_data = []
+        self.contact = []        
         self.program = []
         self.lattitude=[]
         self.longitude=[]
@@ -319,16 +312,7 @@ class Community_resource_scrapper:
                     self.driver = webdriver.Chrome(options=self.options)                    
                     for zip in zipcodes[:2]:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, i)                        
-                    print(
-                        len(self.program),
-                        len(self.names),
-                        len(self.links),
-                        len(self.contact),
-                        len(self.addresses), 
-                        len(self.lattitude),
-                        len(self.longitude)
-                    )
+                        self.com_res_url_scrapper(com_res_url, i)                                            
                     df = pd.DataFrame(
                         { 
                         'Program' : self.program,
@@ -338,8 +322,19 @@ class Community_resource_scrapper:
                     df.drop_duplicates(subset=['Address'], inplace=True)
                     print(df)
                     df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
-                    bar()
-            logger.info(constants.scrape_message+str(i))            
+                    logger.info(constants.scrape_message+str(i))   
+                    self.clearing_lists()
+                    bar()    
+    
+    def clearing_lists(self):
+        self.names.clear()
+        self.links.clear()
+        self.addresses.clear()
+        self.contact.clear()   
+        self.program.clear()
+        self.lattitude.clear()
+        self.longitude.clear()            
+    
     def com_res_url_scrapper(self, url, program_name):
         self.driver.get(url)
         while True:
@@ -381,55 +376,6 @@ class Community_resource_scrapper:
                 self.driver.find_element(By.LINK_TEXT, 'Next').click()
             except Exception as e:                
                 break
-
-        length = len(self.links)
-        s = 0
-        while s < length:
-                response = requests.get(self.links[s])
-                soup = BeautifulSoup(response.content, "html.parser")
-                for h2 in soup.find_all('h2'):
-                    h2.string = h2.string + '-'
-                    
-                time.sleep(5)
-                try:       
-                    general_info = soup.find("div", id= "tabS2P1").get_text(strip=True, separator=' ')
-                    self.gen_information_data.append(general_info) 
-                except:
-                    self.gen_information_data.append("nil")
-                try:            
-                    staff_info = soup.find("div", id= "tabS3P1").get_text(strip=True, separator=' ')
-                    self.staff_information_data.append(staff_info) 
-                except:
-                    self.staff_information_data.append("nil") 
-                try:            
-                    services_info= soup.find("div",id= "tabS6P1").get_text(strip=True, separator=' ')
-                    self.service_offered_data.append(services_info)
-                except:
-                    self.service_offered_data.append("nil")
-                
-                try:    
-                    pricing_availability_info = soup.find("div", id= "tabS9P1").get_text(strip=True, separator=' ')
-                    self.pricing_availability_data.append(pricing_availability_info)
-                except:
-                    self.pricing_availability_data.append("nil")
-                    
-                try:
-                    financial_info = soup.find("div", id= "tabS4P1").get_text(strip=True, separator=' ')
-                    self.financial_information_data.append(financial_info)
-                except:
-                    self.financial_information_data.append("nil")    
-                
-                try:
-                    availability_info = soup.find("div", id= "tabS5P1").get_text(strip=True, separator=' ')
-                    self.availability_information_data.append(availability_info)
-                except:
-                    self.availability_information_data.append("nil")
-                try:
-                    overview_info = soup.find("div", id= "tabP16").get_text(strip=True, separator=' ')
-                    self.overview_information_data.append(overview_info)
-                except:
-                    self.overview_information_data.append("nil")
-                s+=1
                 
                 
         

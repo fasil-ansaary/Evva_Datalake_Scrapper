@@ -235,7 +235,7 @@ class Meals_on_wheels_scrapper:
             
 
 class Caring_scrapper:
-    async def run_caring_scrapper(self):
+    def run_caring_scrapper(self):
         for i in constants.caretype_to_url_mapper:
             # Set up Selenium
             self.options = Options()
@@ -246,7 +246,7 @@ class Caring_scrapper:
                 for zip in zipcodes[:2]:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
-                    scrapped_list=await self.scrape_care_type_info(my_url, scrapped_list, zip, i)
+                    scrapped_list= self.scrape_care_type_info(my_url, scrapped_list, zip, i)
                     bar()
             # Quit the browser
             self.driver.quit()
@@ -260,7 +260,7 @@ class Caring_scrapper:
 
             logger.info(constants.scrape_message+str(i))
     
-    def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
+    async def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
         self.driver.get(url)
 
         # Wait for the entire page to be loaded
@@ -282,7 +282,7 @@ class Caring_scrapper:
         lst.pop()
         lst = find_city_state_from_zip(zip, lst)
         lst.append(zip)
-        lst = get_coordinates(lst[1], lst)    
+        lst = await get_coordinates(lst[1], lst)    
         scrapped_list.append(lst)
         return scrapped_list
     
@@ -294,4 +294,4 @@ if __name__ == '__main__':
     
     #geriatrics_scrapper.run_geriatrics_scrapper()
     # meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
-    asyncio.run(caring_scrapping.run_caring_scrapper())
+    caring_scrapping.run_caring_scrapper()

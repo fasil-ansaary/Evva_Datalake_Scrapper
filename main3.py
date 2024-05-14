@@ -313,7 +313,7 @@ class Community_resource_scrapper:
                 self.options = Options()
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)
-                for zip in zipcodes:
+                for zip in zipcodes[:2]:
                     com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
                     self.com_res_url_scrapper(com_res_url, zip)
                     city = find_city_state_from_zip(zip, [])[0]

@@ -3,7 +3,7 @@ from geopy.exc import GeocoderTimedOut
 from geopy.adapters import AioHTTPAdapter
 # import resources.constants as constants
 
-async def get_coordinates(address, list, attempt=1, max_attempts=5):
+def get_coordinates(address, list, attempt=1, max_attempts=5):
     """
     This function uses mapbox api to get the locations coordinates in lattitude and in longitude.
 
@@ -17,23 +17,19 @@ async def get_coordinates(address, list, attempt=1, max_attempts=5):
     Returns:
         list: list of scrapped details along with the coordinates.
     """
-    async with Nominatim(
-    user_agent="evva-datalake-scrapper",
-    adapter_factory=AioHTTPAdapter,
-    ) as geocoder:
+    geocoder = Nominatim(user_agent="evva-datalake-scrapper")    
+    try:
+        location = geocoder.geocode(address)
+        if location:
+            latitude, longitude = location.latitude, location.longitude
+            list.extend([latitude, longitude])
+            return list
+        else:
+            list.extend(['Not Found', 'Not Found'])
+            return list
+    except Exception:
+        if attempt <= max_attempts:
+            return get_coordinates(address, list, attempt=attempt+1)
+        raise
     
-        try:
-            location = geocoder.geocode(address)
-            if location:
-                latitude, longitude = location.latitude, location.longitude
-                list.extend([latitude, longitude])
-                return list
-            else:
-                list.extend(['Not Found', 'Not Found'])
-                return list
-        except Exception:
-            if attempt <= max_attempts:
-                return get_coordinates(address, list, attempt=attempt+1)
-            raise
-        
     

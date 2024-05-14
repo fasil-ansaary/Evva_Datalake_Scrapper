@@ -242,7 +242,7 @@ class Caring_scrapper:
             self.driver = webdriver.Chrome(options=self.options)
             scrapped_list = []
             with alive_bar(len(zipcodes)) as bar:            
-                for zip in zipcodes:
+                for zip in zipcodes[:2]:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
                     scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)

@@ -3,6 +3,7 @@ import pandas as pd
 from alive_progress import alive_bar
 import logging
 import csv
+import aiohttp
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By

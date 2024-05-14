@@ -359,6 +359,8 @@ class Community_resource_scrapper:
                         self.lattitude.append(coordinates[1])
                     except:
                         self.addresses.append("NIL")
+                        self.lattitude.append("NIL")
+                        self.lattitude.append("NIL")
                     try:
                         ph = box.find('i', {'class': 'fa fa-phone'}).findNext('a').text
                         self.contact.append(ph)

@@ -235,7 +235,7 @@ class Meals_on_wheels_scrapper:
             
 
 class Caring_scrapper:
-    async def run_caring_scrapper(self):
+    def run_caring_scrapper(self):
         for i in constants.caretype_to_url_mapper:
             # Set up Selenium
             self.options = Options()

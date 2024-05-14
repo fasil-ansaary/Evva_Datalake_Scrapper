@@ -361,9 +361,8 @@ class Community_resource_scrapper:
                         self.links.append("NIL")
                     try:
                         add = box.find('input', {'id': 'Address'})['value']
-                        self.addresses.append(add)
-                        coord = []
-                        coord = get_coordinates(add[:len(add) - 9])
+                        self.addresses.append(add)                        
+                        coord = get_coordinates(add[:len(add) - 9],[])
                         self.lattitude.append(coord[0])
                         self.longitude.append(coord[1])
                     except:

@@ -235,7 +235,7 @@ class Meals_on_wheels_scrapper:
             
 
 class Caring_scrapper:
-    def run_caring_scrapper(self):
+    async def run_caring_scrapper(self):
         for i in constants.caretype_to_url_mapper:
             # Set up Selenium
             self.options = Options()
@@ -246,7 +246,7 @@ class Caring_scrapper:
                 for zip in zipcodes[:2]:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
-                    scrapped_list= self.scrape_care_type_info(my_url, scrapped_list, zip, i)
+                    scrapped_list= asyncio.run(self.scrape_care_type_info(my_url, scrapped_list, zip, i))
                     bar()
             # Quit the browser
             self.driver.quit()

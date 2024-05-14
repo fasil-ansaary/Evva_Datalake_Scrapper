@@ -308,8 +308,8 @@ class Community_resource_scrapper:
         self.overview_information_data = []
     
     def community_resource_scrapper(self):
-        with alive_bar(len(constants.community_resource_finder_url_mapper)) as bar:
-            for i in constants.community_resource_finder_url_mapper:
+        with alive_bar(len(constants.community_resource_finder_url_mapper[:1])) as bar:
+            for i in constants.community_resource_finder_url_mapper[:1]:
                 self.options = Options()
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)

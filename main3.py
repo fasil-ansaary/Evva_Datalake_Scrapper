@@ -306,6 +306,8 @@ class Community_resource_scrapper:
         self.availability_information_data = []
         self.pricing_availability_data = []
         self.overview_information_data = []
+        self.program = []
+        self.city = []
     
     def community_resource_scrapper(self):
         c = 0
@@ -319,10 +321,11 @@ class Community_resource_scrapper:
                     for zip in zipcodes[:2]:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
                         self.com_res_url_scrapper(com_res_url, zip)
-                        city = find_city_state_from_zip(zip, [])[0]
+                        self.city.append(find_city_state_from_zip(zip, [])[0])
+                        self.program.append(i)
                     df = pd.DataFrame(
                         { 
-                        'Program' : i, 'City':city, 'Zipcode':zip,
+                        'Program' : self.program, 'City':self.city, 'Zipcode':zip,
                         'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
                         'Address': self.addresses, 'General Information': self.gen_information_data, 
                         'Staff Information': self.staff_information_data,'Services':self.service_offered_data,

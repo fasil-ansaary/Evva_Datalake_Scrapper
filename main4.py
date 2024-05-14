@@ -305,6 +305,8 @@ class Community_resource_scrapper:
         self.pricing_availability_data = []
         self.overview_information_data = []
         self.program = []
+        self.lattitude=[]
+        self.longitude=[]
     
     def community_resource_scrapper(self):
         c = 0
@@ -317,19 +319,12 @@ class Community_resource_scrapper:
                     self.driver = webdriver.Chrome(options=self.options)                    
                     for zip in zipcodes[:2]:
                         com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                        self.com_res_url_scrapper(com_res_url, i)                        
-                    print(
-                        len(self.program),
-                        len(self.names),
-                        len(self.links),
-                        len(self.contact),
-                        len(self.addresses)
-                    )
+                        self.com_res_url_scrapper(com_res_url, i)                                            
                     df = pd.DataFrame(
                         { 
                         'Program' : self.program,
                         'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                        'Address': self.addresses
+                        'Address': self.addresses, 'Lattitude': self.lattitude, 'Longitude': self.longitude,
                         })
                     print(df)
                     df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
@@ -358,8 +353,14 @@ class Community_resource_scrapper:
                     try:
                         add = box.find('input', {'id': 'Address'})['value']
                         self.addresses.append(add)
+                        coord = []
+                        coord = get_coordinates(add[:len(add) - 9])
+                        self.lattitude.append(coord[0])
+                        self.longitude.append(coord[1])
                     except:
                         self.addresses.append("NIL")
+                        self.lattitude.append("NIL")
+                        self.longitude.append("NIL")
                         
                     try:
                         ph = box.find('i', {'class': 'fa fa-phone'}).findNext('a').text

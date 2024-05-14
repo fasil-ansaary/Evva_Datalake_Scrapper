@@ -314,10 +314,9 @@ class Community_resource_scrapper:
                     c += 1
                     self.options = Options()
                     self.options.headless = True
-                    self.driver = webdriver.Chrome(options=self.options)
-                    self.program.append(i)
+                    self.driver = webdriver.Chrome(options=self.options)                    
                     for zip in zipcodes[:2]:
-                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], i)
                         self.com_res_url_scrapper(com_res_url, zip)                        
                     print(
                         len(self.program),
@@ -336,7 +335,7 @@ class Community_resource_scrapper:
                     df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
                     bar()
             logger.info(constants.scrape_message+str(i))            
-    def com_res_url_scrapper(self, url, zip):
+    def com_res_url_scrapper(self, url, program_name):
         self.driver.get(url)
         while True:
             try:
@@ -347,6 +346,7 @@ class Community_resource_scrapper:
                     l = 0
                     #print(box)
                     try:                        
+                        self.program.append(program_name)
                         self.names.append(box.find('a').text.strip())
                     except:
                         self.names.append("NIL")

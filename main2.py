@@ -242,6 +242,7 @@ class Caring_scrapper:
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)
                 scrapped_list = []     
+                bar.title('Scrapping...')
                 for zip in zipcodes:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
@@ -260,7 +261,6 @@ class Caring_scrapper:
                 df_cleaned = df.dropna(subset=['Longitude'])
                 df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
                 logger.info(constants.scrape_message+str(i))
-                bar.title(i)
                 bar()
         
     def scrape_care_type_info(self, url, scrapped_list, zip, care_type):

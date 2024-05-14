@@ -235,34 +235,33 @@ class Meals_on_wheels_scrapper:
 
 class Caring_scrapper:
     def run_caring_scrapper(self):
-        for i in constants.caretype_to_url_mapper:
-            # Set up Selenium
-            self.options = Options()
-            self.options.headless = True
-            self.driver = webdriver.Chrome(options=self.options)
-            scrapped_list = []
-            with alive_bar(len(zipcodes)) as bar:            
+        with alive_bar(len(constants.caretype_to_url_mapper)) as bar:       
+            for i in constants.caretype_to_url_mapper:
+                # Set up Selenium
+                self.options = Options()
+                self.options.headless = True
+                self.driver = webdriver.Chrome(options=self.options)
+                scrapped_list = []     
                 for zip in zipcodes:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information
-                    scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)
-                    bar()
-            # Quit the browser
-            self.driver.quit()
-            with open(constants.file_path+i+constants.csv_extension, mode=constants.write_mode) as csvfile:
-                writer = csv.writer(csvfile)
-                # Write header
-                writer.writerow(constants.header)
-            
-                # Write data
-                writer.writerows(scrapped_list)
-            
-            df = pd.read_csv(constants.file_path+i+constants.csv_extension)
-            df_cleaned = df.dropna(subset=['Longitude'])
-            df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
-
-            logger.info(constants.scrape_message+str(i))
-    
+                    scrapped_list=self.scrape_care_type_info(my_url, scrapped_list, zip, i)                    
+                # Quit the browser
+                self.driver.quit()
+                with open(constants.file_path+i+constants.csv_extension, mode=constants.write_mode) as csvfile:
+                    writer = csv.writer(csvfile)
+                    # Write header
+                    writer.writerow(constants.header)
+                
+                    # Write data
+                    writer.writerows(scrapped_list)
+                
+                df = pd.read_csv(constants.file_path+i+constants.csv_extension)
+                df_cleaned = df.dropna(subset=['Longitude'])
+                df_cleaned.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+                logger.info(constants.scrape_message+str(i))
+                bar()
+        
     def scrape_care_type_info(self, url, scrapped_list, zip, care_type):
         self.driver.get(url)
 

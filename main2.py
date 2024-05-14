@@ -238,11 +238,11 @@ class Caring_scrapper:
         with alive_bar(len(constants.caretype_to_url_mapper)) as bar:       
             for i in constants.caretype_to_url_mapper:
                 # Set up Selenium
+                bar.title(f'Scrapping {i}:')
                 self.options = Options()
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)
-                scrapped_list = []     
-                bar.title('Scrapping...')
+                scrapped_list = []                     
                 for zip in zipcodes:
                     my_url = url_updater(constants.caretype_to_url_mapper[i],zip)
                     # Call the function to scrape information

@@ -308,28 +308,31 @@ class Community_resource_scrapper:
         self.overview_information_data = []
     
     def community_resource_scrapper(self):
-        with alive_bar(len(constants.community_resource_finder_url_mapper[:1])) as bar:
-            for i in constants.community_resource_finder_url_mapper[:1]:
-                self.options = Options()
-                self.options.headless = True
-                self.driver = webdriver.Chrome(options=self.options)
-                for zip in zipcodes[:2]:
-                    com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
-                    self.com_res_url_scrapper(com_res_url, zip)
-                    city = find_city_state_from_zip(zip, [])[0]
-                df = pd.DataFrame(
-                    { 
-                    'Program' : i, 'City':city, 'Zipcode':zip,
-                    'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                    'Address': self.addresses, 'General Information': self.gen_information_data, 
-                    'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
-                    'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
-                    'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
-                    'Lattitude': self.lattitude, 'Longitude': self.longitude
-                    })
-                print(df)
-                df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
-                bar()
+        c = 0
+        with alive_bar(len(constants.community_resource_finder_url_mapper)) as bar:
+            for i in constants.community_resource_finder_url_mapper:
+                if c < 1:
+                    c += 1
+                    self.options = Options()
+                    self.options.headless = True
+                    self.driver = webdriver.Chrome(options=self.options)
+                    for zip in zipcodes[:2]:
+                        com_res_url = url_updater(constants.community_resource_finder_url_mapper[i], zip)
+                        self.com_res_url_scrapper(com_res_url, zip)
+                        city = find_city_state_from_zip(zip, [])[0]
+                    df = pd.DataFrame(
+                        { 
+                        'Program' : i, 'City':city, 'Zipcode':zip,
+                        'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
+                        'Address': self.addresses, 'General Information': self.gen_information_data, 
+                        'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
+                        'Financial info':self.financial_information_data,'Availability':self.availability_information_data,
+                        'Pricing and availability':self.pricing_availability_data, 'Overview of services':self.overview_information_data,
+                        'Lattitude': self.lattitude, 'Longitude': self.longitude
+                        })
+                    print(df)
+                    df.to_csv(constants.file_path+i+constants.csv_extension, index=False)
+                    bar()
             logger.info(constants.scrape_message+str(i))            
     def com_res_url_scrapper(self, url, zip):
         self.driver.get(url)

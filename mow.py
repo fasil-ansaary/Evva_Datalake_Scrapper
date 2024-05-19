@@ -47,12 +47,6 @@ class Meals_on_wheels_scrapper:
         except NoSuchElementException:
             logger.info(f"No service found at {zip}")
         finally:
-            for i in self.contact_numbers:
-                print(i)
-            for i in self.addresses:
-                print(i)
-            for i in self.names:
-                print(i)
             new_data = []
             for i in range(len(self.names)):
                 data = {

@@ -49,7 +49,7 @@ class Caring_scrapper:
             
                 # Write data
                 writer.writerows(scrapped_list)
-            logger.info(constants.scrape_message+str(i))
+            logger.info(constants.scrape_message+str(care_type))
     
     def scrape_care_type_info(self, url, zip, care_type, scrapped_list):
         self.driver.get(url)

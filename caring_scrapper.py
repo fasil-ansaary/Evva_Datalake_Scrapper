@@ -29,9 +29,9 @@ class Caring_scrapper:
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)
         scrapped_list = []
-        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=home-health-agencies&location="
-        care_type = "Home Health Agency"
-        file_name = "Home_Health_Agency"
+        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=geriatric-care-managers&location="
+        care_type = "Geriatric Care Managers CAR"
+        file_name = "Geriatric_Care_Managers_CAR"
         with alive_bar(len(zipcodes)) as bar:
             bar.title(f'Scrapping for {care_type}:')
             for zip in zipcodes:

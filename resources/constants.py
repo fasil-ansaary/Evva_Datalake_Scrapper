@@ -4,11 +4,11 @@ value_error_message = "Could not retrieve location information from the address.
 webpage_class_tag = "//div[@class='content sc-ifAKCX cFlEyZ sc-bdVaJa jgrpHL']"
 line_break = '\n'
 dollar_sign = '$'
-header = ['Type', 'Name', 'Address', 'City', 'State',
-          'Zipcode', 'Lattitue', 'Longitude']
+header = ['Care Type', 'Name', 'Address', 'Review Count', 'Distance',
+          'City', 'State', 'Lattitude', 'Longitude', 'Zipcode']
 write_mode = 'w'
 csv_extension = ".csv"
-file_path = "/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/"
+file_path = "/Users/fasil/Desktop/scrapper script/Evva_Datalake_Scrapper/resources/"
 caretype_to_url_mapper = {
     'Assisted Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=assisted-living&location=",
     'Memory Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=memory-care-facilities&location=",
@@ -28,27 +28,28 @@ scrape_message = "Successfully scrapped for care type "
 community_resource_finder_url_mapper = {    
     "Alzheimer Association Chapters" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=84&location=",
     "Alzheimer Early Stage Programs" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=94&location=",
-    "AARP Events" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=89&location=",
-    "Adult Day Care CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=1&location=",
+    # "AARP Events" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=89&location=",
+    # "Adult Day Care CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=1&location=",
     "Alzheimer Education Programs" :"https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=93&location=",
     "Relocation Advisors" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=48&location=",
-    "AARP State Offices" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=87&location=",
+    # "AARP State Offices" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=87&location=",
     "Transportation" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=64&location=",
     "Skilled Nursing" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=2&location=",
     "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
     "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
     "Area Agency on Aging" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location=",
     "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
-    "Independent Living CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=28&location=",
+    # "Independent Living CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=28&location=",
     "Home Health Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=17&location=",
     "Home Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location=",
     "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
     "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
-    "Geriatric Care Managers CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
+    # "Geriatric Care Managers CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
     "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
 }
 
 state_id = 'state_id'
+
 zipcode = 'zip'
 mow_url = 'https://www.mealsonwheelsamerica.org/signup/aboutmealsonwheels/find-programs?filter='
 header_column = ["Name", "Address", "Contact", "City", "State", "Zipcode", "Lattitude", "Longitude"]
@@ -93,3 +94,5 @@ mow_web_page_view_more_button_tag = '//div/p/a[contains(@class, "thebutton")]'
 mow_web_page_name_tag = '//div[@class="findmeal-result"]/div/h2'
 mow_web_page_address_tag = '//div[@class="findmeal-result"]/div/p'
 mow_web_page_contact_tag = '//div[@class="findmeal-result"]/div/p/a'
+
+azure_map_key = "NvKCUdW1a-bsKFSdgOswNqsugMyg-A0TdApdnbvpg4g"

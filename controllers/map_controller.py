@@ -1,34 +1,31 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.maps.search import MapsSearchClient
-import pandas as pd
-from alive_progress import alive_bar
-import logging
-from zipcode_extractor import zipcode_extractor
+import resources.constants as constants
 
-credential = AzureKeyCredential("NvKCUdW1a-bsKFSdgOswNqsugMyg-A0TdApdnbvpg4g")
+def get_coordinates(address, list):
+    """
+    This function uses mapbox api to get the locations coordinates in lattitude and in longitude.
 
-search_client = MapsSearchClient(
-    credential=credential,
-)
+    Args:
+        address (str): address of the location to get coordinates for.
+        list (list): list of scrapped details
 
-df = pd.read_csv("/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/Assisted Living.csv")
-print("Scrapped data size:", df.size)
-zipcodes = zipcode_extractor()
-print("Total zipcodes scrapped:", len(zipcodes) )
-df_cleaned = df.dropna(subset=['State'])
-print("Dataset size after cleaning:", df_cleaned.size)
-df = df_cleaned
-latt = []
-long = []
-df.rename(columns = {'Lattitue':'Lattitude'}, inplace = True)
-with alive_bar(len(df['Address'])) as bar:      
-    bar.title('Mapping Coordinates in Progress...')
-    for i in df['Address']:
-        search_result = search_client.search_address(i)
-        latt.append(search_result.results[0].position.lat)
-        long.append(search_result.results[0].position.lon)
-        bar()
-df['Lattitude'] = latt
-df['Longitude'] = long
-    
-df_cleaned.to_csv("/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/Assisted_Living_cleaned.csv", index=False)
+    Raises:
+        ValueError: Value error incase the location is not found by mapbox api
+
+    Returns:
+        list: list of scrapped details along with the coordinates.
+    """
+    credential = AzureKeyCredential(constants.azure_map_key)
+
+    search_client = MapsSearchClient(
+        credential=credential,
+    )
+
+    search_result = search_client.search_address(address)
+    if search_result:
+        latitude, longitude = search_result.results[0].position.lat, search_result.results[0].position.lon
+        list.extend([latitude, longitude])
+        return list
+    else:
+        return ['Not Found', 'Not Found']

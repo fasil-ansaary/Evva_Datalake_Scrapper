@@ -44,9 +44,9 @@ class Community_resource_scrapper:
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=84&location="
-        care_type = "Alzheimer Association Chapters"
-        file_name = "Alzheimer_Association_Chapters" 
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=94&location="
+        care_type = "Alzheimer Early Stage Programs"
+        file_name = "Alzheimer_Early_Stage_Programs" 
         with alive_bar(len(zipcodes)) as bar:              
             bar.title(f'Scrapping {care_type}:')
             for zip in zipcodes:

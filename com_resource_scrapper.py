@@ -47,9 +47,9 @@ class Community_resource_scrapper:
         scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=84&location="
         care_type = "Alzheimer Association Chapters"
         file_name = "Alzheimer_Association_Chapters" 
-        with alive_bar(len(zipcodes)) as bar:              
+        with alive_bar(len(zipcodes[:2])) as bar:              
             bar.title(f'Scrapping {care_type}:')
-            for zip in zipcodes:
+            for zip in zipcodes[:2]:
                 com_res_url = url_updater(scrapping_url, zip)
                 self.com_res_url_scrapper(com_res_url, care_type)                                            
                 bar()    

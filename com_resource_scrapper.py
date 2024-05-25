@@ -40,19 +40,19 @@ class Community_resource_scrapper:
         self.city = []
         self.zipcode = []
         self.general_information_data= []
-        self.cms_data = []
-        # self.service_offered = []
+        self.staff_info = []
+        self.service_offered = []
         # self.pricing = []
-        # self.financial = []
-        # self.avail = []
+        self.financial = []
+        self.avail = []
     
     def community_resource_scrapper(self):        
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=2&location="
-        care_type = "Skilled Nursing"
-        file_name = "Skilled_Nursing"
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location="
+        care_type = "Neurologists"
+        file_name = "Neurologists"
         with alive_bar(len(zipcodes)) as bar:              
             bar.title(f'Scrapping {care_type}:')
             for zip in zipcodes:
@@ -82,11 +82,11 @@ class Community_resource_scrapper:
             'Address': self.addresses,
             'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode,
             'General Information' : self.general_information_data, 
-            'CMS Data' : self.cms_data,
-            # 'Service Offered' : self.service_offered,
+            'Staff Information' : self.staff_info,
+            'Service Offered' : self.service_offered,
             # 'Pricing' : self.pricing,
-            # 'Financial Information' : self.financial,
-            # 'Availability' : self.avail
+            'Financial Information' : self.financial,
+            'Availability' : self.avail
             # 'Early Stage Programs': self.early_stage_programs_data,
             # 'Education Programs': self.education_programs_data,
             # 'Support Groups': self.support_groups_data,
@@ -172,19 +172,19 @@ class Community_resource_scrapper:
             try:
                 early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
                 # print(early_stage_info)
-                self.cms_data.append(early_stage_info)
+                self.staff_info.append(early_stage_info)
             except:
                 # print("nil")
-                self.cms_data.append("nil")
+                self.staff_info.append("nil")
                 
-            # try:            
-            #     # Staff Information
-            #     education_info = soup.find("div", id= "tab-2").get_text(strip=True, separator=' ')
-            #     # print(education_info)
-            #     self.service_offered.append(education_info) 
-            # except:
-            #     # print("nil")
-            #     self.service_offered.append("nil")
+            try:            
+                # Staff Information
+                education_info = soup.find("div", id= "tab-2").get_text(strip=True, separator=' ')
+                # print(education_info)
+                self.service_offered.append(education_info) 
+            except:
+                # print("nil")
+                self.service_offered.append("nil")
                 
             # try:            
             #     suuport__grp_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
@@ -194,20 +194,20 @@ class Community_resource_scrapper:
             #     # print("nil")
             #     self.pricing.append("nil")
                 
-            # try:            
-            #     social_engagement_info= soup.find("div",id= "tab-5").get_text(strip=True, separator=' ')
-            #     # print(social_engagement_info)
-            #     self.avail.append(social_engagement_info)
-            # except:
-            #     # print("nil")
-            #     self.avail.append("nil")
-            # try:            
-            #     social_engagement_info= soup.find("div",id= "tab-4").get_text(strip=True, separator=' ')
-            #     # print(social_engagement_info)
-            #     self.financial.append(social_engagement_info)
-            # except:
-            #     # print("nil")
-            #     self.financial.append("nil")
+            try:            
+                social_engagement_info= soup.find("div",id= "tab-4").get_text(strip=True, separator=' ')
+                # print(social_engagement_info)
+                self.avail.append(social_engagement_info)
+            except:
+                # print("nil")
+                self.avail.append("nil")
+            try:            
+                social_engagement_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
+                # print(social_engagement_info)
+                self.financial.append(social_engagement_info)
+            except:
+                # print("nil")
+                self.financial.append("nil")
             
             s+=1
 

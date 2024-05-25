@@ -30,8 +30,6 @@ class Meals_on_wheels_scrapper:
         self.contact_numbers = []
         self.state = []
         self.city = []
-        self.lattitude = []
-        self.longitude = []
     
     def run_meals_on_wheels_scrapper(self):
         self.options = Options()
@@ -56,9 +54,7 @@ class Meals_on_wheels_scrapper:
                         constants.Contact: self.contact_numbers[i],
                         constants.City: self.city[i],
                         constants.State: self.state[i],
-                        constants.Zipcode: str(zip),
-                        constants.Lattitude: self.lattitude[i],
-                        constants.Longitude: self.longitude[i]                   
+                        constants.Zipcode: str(zip)                 
                     }
                 }
                 new_data.append(data)
@@ -71,8 +67,7 @@ class Meals_on_wheels_scrapper:
                 data_list.append(
                     [
                         self.names[i], self.addresses[i], self.contact_numbers[i],
-                        self.city[i], self.state[i], zip, self.lattitude[i],
-                        self.longitude[i]                    
+                        self.city[i], self.state[i], zip  
                     ])
 
             df = pd.DataFrame(data_list, columns=constants.header_column)
@@ -120,9 +115,6 @@ class Meals_on_wheels_scrapper:
                 get_city_state_info = find_city_state_from_zip(zip, [])
                 self.city.append(get_city_state_info[0])
                 self.state.append(get_city_state_info[1])  
-                get_coords = get_coordinates(i, [])
-                self.lattitude.append(get_coords[0])
-                self.longitude.append(get_coords[1])
                 
         except NoSuchElementException:
             logger.info(f"No service found at {zip}")

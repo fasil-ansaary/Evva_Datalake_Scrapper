@@ -53,7 +53,7 @@ state_id = 'state_id'
 
 zipcode = 'zip'
 mow_url = 'https://www.mealsonwheelsamerica.org/signup/aboutmealsonwheels/find-programs?filter='
-header_column = ["Name", "Address", "Contact", "City", "State", "Zipcode", "Lattitude", "Longitude"]
+header_column = ["Name", "Address", "Contact", "City", "State", "Zipcode"]
 geriatrics_url_to_scrape = "https://account.americangeriatrics.org/findageriatricshealthcareprofessional"
 states_to_scrape = ["Michigan","Illinois","California", "Texas", "New York", "Georgia"]
 geriatrics_header_column = [

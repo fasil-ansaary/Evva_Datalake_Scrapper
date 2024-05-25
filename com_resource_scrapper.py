@@ -50,7 +50,7 @@ class Community_resource_scrapper:
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location="
         care_type = "Elder Law Attorneys"
         file_name = "Elder_Law_Attorneys"
         with alive_bar(len(zipcodes)) as bar:              

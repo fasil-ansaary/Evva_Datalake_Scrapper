@@ -24,7 +24,7 @@ warnings.filterwarnings(constants.ignore)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(constants.alive_progress_logger)
 
-zipcodes = zipcode_extractor()
+zipcodes = zipcode_extractor()[:2]
 
 
 class Community_resource_scrapper:
@@ -39,6 +39,11 @@ class Community_resource_scrapper:
         self.state = []
         self.city = []
         self.zipcode = []
+        self.general_information_data= []
+        self.early_stage_programs_data = []
+        self.education_programs_data = []
+        self.support_groups_data = []
+        self.social_engagement_programs_data = []
     
     def community_resource_scrapper(self):        
         self.options = Options()
@@ -53,12 +58,33 @@ class Community_resource_scrapper:
                 com_res_url = url_updater(scrapping_url, zip)
                 self.com_res_url_scrapper(com_res_url, care_type)                                            
                 bar()    
+        # print(
+        #     len(self.program),
+        #     len(self.names),
+        #     len(self.links),
+        #     len(self.contact),
+        #     len(self.addresses),
+        #     len(self.city),
+        #     len(self.state),
+        #     len(self.zipcode),
+        #     len(self.general_information_data),
+        #     len(self.early_stage_programs_data),
+        #     len(self.education_programs_data),
+        #     len(self.support_groups_data),
+        #     len(self.social_engagement_programs_data),
+            
+        # )
         df = pd.DataFrame( 
             { 
             'Program' : self.program,
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
             'Address': self.addresses,
-            'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode
+            'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode,
+            'General Information' : self.general_information_data, 
+            'Early Stage Programs': self.early_stage_programs_data,
+            'Education Programs': self.education_programs_data,
+            'Support Groups': self.support_groups_data,
+            'Social Engagement Programs': self.social_engagement_programs_data
             })
         df.drop_duplicates(subset=['Address'], inplace=True)
         df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
@@ -68,6 +94,7 @@ class Community_resource_scrapper:
     
     def com_res_url_scrapper(self, url, program_name):
         self.driver.get(url)
+        scrapped_links = []
         while True:
             try:
                 pagesource = self.driver.page_source
@@ -84,6 +111,7 @@ class Community_resource_scrapper:
                     try:                        
                         l = "https://www.communityresourcefinder.org"+box.find('a')['href']
                         self.links.append(l)
+                        scrapped_links.append(l)
                     except:
                         self.links.append("NIL")
                     try:
@@ -98,6 +126,9 @@ class Community_resource_scrapper:
                         self.state.append(city_state_info[1])
                     except:
                         self.addresses.append("NIL")
+                        self.city.append("NIL")
+                        self.state.append("NIL")
+                        self.zipcode.append("NIL")
                         # self.lattitude.append("NIL")
                         # self.longitude.append("NIL")
                         
@@ -112,7 +143,61 @@ class Community_resource_scrapper:
                 self.driver.find_element(By.LINK_TEXT, 'Next').click()
             except Exception as e:                
                 break
+        length = len(scrapped_links)
+        # print(length)
+        s = 0
+        while s < length:
+
+            response = requests.get(scrapped_links[s])
+            soup = BeautifulSoup(response.content, "html.parser")
+            for h2 in soup.find_all('h2'):
+                h2.string = h2.string + '-'
                 
+            time.sleep(5)
+            # General Information
+            try:       
+                general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
+                # print(general_info)
+                self.general_information_data.append(general_info) 
+            except:
+                # print("nil")
+                self.general_information_data.append("nil")
+                
+            try:
+                early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
+                # print(early_stage_info)
+                self.early_stage_programs_data.append(early_stage_info)
+            except:
+                # print("nil")
+                self.early_stage_programs_data.append("nil")
+                
+            try:            
+                # Staff Information
+                education_info = soup.find("div", id= "tab-2").get_text(strip=True, separator=' ')
+                # print(education_info)
+                self.education_programs_data.append(education_info) 
+            except:
+                # print("nil")
+                self.education_programs_data.append("nil")
+                
+            try:            
+                suuport__grp_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
+                # print(suuport__grp_info)
+                self.support_groups_data.append(suuport__grp_info)
+            except:
+                # print("nil")
+                self.support_groups_data.append("nil")
+                
+            try:            
+                social_engagement_info= soup.find("div",id= "tab-5").get_text(strip=True, separator=' ')
+                # print(social_engagement_info)
+                self.social_engagement_programs_data.append(social_engagement_info)
+            except:
+                # print("nil")
+                self.social_engagement_programs_data.append("nil")
+            
+            s+=1
+
                 
         
         

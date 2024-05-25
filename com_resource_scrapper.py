@@ -34,8 +34,8 @@ class Community_resource_scrapper:
         self.addresses = []
         self.contact = []        
         self.program = []
-        self.lattitude = []
-        self.longitude = []
+        # self.lattitude = []
+        # self.longitude = []
         self.state = []
         self.city = []
         self.zipcode = []
@@ -57,7 +57,7 @@ class Community_resource_scrapper:
             { 
             'Program' : self.program,
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-            'Address': self.addresses, 'Lattitude' :self.lattitude, 'Longitude':self.longitude,
+            'Address': self.addresses,
             'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode
             })
         df.drop_duplicates(subset=['Address'], inplace=True)
@@ -89,17 +89,17 @@ class Community_resource_scrapper:
                     try:
                         add = box.find('input', {'id': 'Address'})['value']
                         self.addresses.append(add)                        
-                        coord = get_coordinates(add,[])
-                        self.lattitude.append(coord[0])
-                        self.longitude.append(coord[1])
+                        # coord = get_coordinates(add,[])
+                        # self.lattitude.append(coord[0])
+                        # self.longitude.append(coord[1])
                         self.zipcode.append(add[-5:])
                         city_state_info = find_city_state_from_zip(add[-5:], [])
                         self.city.append(city_state_info[0])
                         self.state.append(city_state_info[1])
                     except:
                         self.addresses.append("NIL")
-                        self.lattitude.append("NIL")
-                        self.longitude.append("NIL")
+                        # self.lattitude.append("NIL")
+                        # self.longitude.append("NIL")
                         
                     try:
                         ph = box.find('i', {'class': 'fa fa-phone'}).findNext('a').text

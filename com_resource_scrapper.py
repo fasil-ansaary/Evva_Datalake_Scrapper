@@ -53,7 +53,7 @@ class Community_resource_scrapper:
                 com_res_url = url_updater(scrapping_url, zip)
                 self.com_res_url_scrapper(com_res_url, care_type)                                            
                 bar()    
-        df = pd.DataFrame(
+        df = pd.DataFrame( 
             { 
             'Program' : self.program,
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 

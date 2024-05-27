@@ -9,7 +9,7 @@ header = ['Care Type', 'Name', 'Address', 'Review Count', 'Distance',
 write_mode = 'w'
 csv_extension = ".csv"
 file_path = "/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/"
-# mac_path = "/Users/fasil/Desktop/scrapper script/Evva_Datalake_Scrapper/resources/"
+mac_path = "/Users/fasil/Desktop/scrapper script/Evva_Datalake_Scrapper/resources/"
 caretype_to_url_mapper = {
     'Assisted Living' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=assisted-living&location=",
     'Memory Care' : "https://www.caring.com/local/search?utf8=%E2%9C%93&type=memory-care-facilities&location=",
@@ -39,21 +39,21 @@ community_resource_finder_url_mapper = {
     "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
     "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
     "Area Agency on Aging" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location=",
-    "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
+    # "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
     # "Independent Living CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=28&location=",
     "Home Health Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=17&location=",
     "Home Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location=",
     "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
     "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
     # "Geriatric Care Managers CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
-    "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
+    # "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
 }
 
 state_id = 'state_id'
 
 zipcode = 'zip'
 mow_url = 'https://www.mealsonwheelsamerica.org/signup/aboutmealsonwheels/find-programs?filter='
-header_column = ["Name", "Address", "Contact", "City", "State", "Zipcode"]
+header_column = ["Name", "Address", "Contact"]
 geriatrics_url_to_scrape = "https://account.americangeriatrics.org/findageriatricshealthcareprofessional"
 states_to_scrape = ["Michigan","Illinois","California", "Texas", "New York", "Georgia"]
 geriatrics_header_column = [

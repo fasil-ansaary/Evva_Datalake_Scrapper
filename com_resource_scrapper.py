@@ -39,20 +39,20 @@ class Community_resource_scrapper:
         self.state = []
         self.city = []
         self.zipcode = []
-        self.general_information_data= []
-        self.staff_info = []
+        # self.general_information_data= []
+        # self.staff_info = []
         self.service_offered = []
-        self.pricing = []
-        self.financial = []
-        self.avail = []
+        # self.pricing = []
+        # self.financial = []
+        # self.avail = []
     
     def community_resource_scrapper(self):        
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location="
-        care_type = "Home Care"
-        file_name = "Home_Care"
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location="
+        care_type = "Geriatricians"
+        file_name = "Geriatricians"
         with alive_bar(len(zipcodes)) as bar:              
             bar.title(f'Scrapping {care_type}:')
             for zip in zipcodes:
@@ -81,12 +81,12 @@ class Community_resource_scrapper:
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
             'Address': self.addresses,
             'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode,
-            'General Information' : self.general_information_data, 
-            'Staff Information' : self.staff_info,
+            # 'General Information' : self.general_information_data, 
+            # 'Staff Information' : self.staff_info,
             'Service Offered' : self.service_offered,
-            'Pricing' : self.pricing,
-            'Financial Information' : self.financial,
-            'Availability' : self.avail
+            # 'Pricing' : self.pricing,
+            # 'Financial Information' : self.financial,
+            # 'Availability' : self.avail
             })
         df.drop_duplicates(subset=['Address'], inplace=True)
         df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
@@ -156,45 +156,45 @@ class Community_resource_scrapper:
                 h2.string = h2.string + '-'
                 
             time.sleep(5)
-            try:       
-                general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
-                # print(general_info)
-                self.general_information_data.append(general_info) 
-            except:
-                # print("nil")
-                self.general_information_data.append("nil")
+            # try:       
+            #     general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
+            #     # print(general_info)
+            #     self.general_information_data.append(general_info) 
+            # except:
+            #     # print("nil")
+            #     self.general_information_data.append("nil")
 
-            try:
-                early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
-                # print(early_stage_info)
-                self.staff_info.append(early_stage_info)
-            except:
-                # print("nil")
-                self.staff_info.append("nil")
+            # try:
+            #     early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
+            #     # print(early_stage_info)
+            #     self.staff_info.append(early_stage_info)
+            # except:
+            #     # print("nil")
+            #     self.staff_info.append("nil")
 
             try:            
                 # Staff Information
-                education_info = soup.find("div", id= "tab-2").get_text(strip=True, separator=' ')
+                education_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
                 # print(education_info)
                 self.service_offered.append(education_info) 
             except:
                 # print("nil")
                 self.service_offered.append("nil")
 
-            try:            
-                social_engagement_info= soup.find("div",id= "tab-4").get_text(strip=True, separator=' ')
-                # print(social_engagement_info)
-                self.avail.append(social_engagement_info)
-            except:
-                # print("nil")
-                self.avail.append("nil")
-            try:            
-                social_engagement_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
-                # print(social_engagement_info)
-                self.financial.append(social_engagement_info)
-            except:
-                # print("nil")
-                self.financial.append("nil")
+            # try:            
+            #     social_engagement_info= soup.find("div",id= "tab-4").get_text(strip=True, separator=' ')
+            #     # print(social_engagement_info)
+            #     self.avail.append(social_engagement_info)
+            # except:
+            #     # print("nil")
+            #     self.avail.append("nil")
+            # try:            
+            #     social_engagement_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
+            #     # print(social_engagement_info)
+            #     self.financial.append(social_engagement_info)
+            # except:
+            #     # print("nil")
+            #     self.financial.append("nil")
 
             s+=1
                 

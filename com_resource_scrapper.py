@@ -87,7 +87,7 @@ class Community_resource_scrapper:
             # 'Social Engagement Programs': self.social_engagement_programs_data
             })
         df.drop_duplicates(subset=['Address'], inplace=True)
-        df.to_csv(constants.mac_path+file_name+constants.csv_extension, index=False)
+        df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
         logger.info(constants.scrape_message+str(care_type))   
         
         

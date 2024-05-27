@@ -39,20 +39,19 @@ class Community_resource_scrapper:
         self.state = []
         self.city = []
         self.zipcode = []
-        # self.general_information_data= []
-        # self.staff_info = []
-        self.service_offered = []
-        # self.pricing = []
-        # self.financial = []
-        # self.avail = []
+        self.general_information_data= []
+        self.early_stage_programs_data = []
+        self.education_programs_data = []
+        self.support_groups_data = []
+        self.social_engagement_programs_data = []
     
     def community_resource_scrapper(self):        
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location="
-        care_type = "Geriatric Psychiatrists"
-        file_name = "Geriatric_Psychiatrists"
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=93&location="
+        care_type = "Alzheimer Education Programs"
+        file_name = "Alzheimer_Education_Programs" 
         with alive_bar(len(zipcodes)) as bar:              
             bar.title(f'Scrapping {care_type}:')
             for zip in zipcodes:
@@ -81,19 +80,14 @@ class Community_resource_scrapper:
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
             'Address': self.addresses,
             'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode,
-            # 'General Information' : self.general_information_data, 
-            # 'Staff Information' : self.staff_info,
-            'Service Offered' : self.service_offered,
-            # 'Pricing' : self.pricing,
-            # 'Financial Information' : self.financial,
-            # 'Availability' : self.avail
+            'General Information' : self.general_information_data, 
             # 'Early Stage Programs': self.early_stage_programs_data,
             # 'Education Programs': self.education_programs_data,
             # 'Support Groups': self.support_groups_data,
             # 'Social Engagement Programs': self.social_engagement_programs_data
             })
         df.drop_duplicates(subset=['Address'], inplace=True)
-        df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
+        df.to_csv(constants.mac_path+file_name+constants.csv_extension, index=False)
         logger.info(constants.scrape_message+str(care_type))   
         
         
@@ -160,57 +154,48 @@ class Community_resource_scrapper:
                 h2.string = h2.string + '-'
                 
             time.sleep(5)
-            # General Information
-            # try:       
-            #     general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
-            #     # print(general_info)
-            #     self.general_information_data.append(general_info) 
-            # except:
-            #     # print("nil")
-            #     self.general_information_data.append("nil")
-                
+            try:       
+                general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
+                # print(general_info)
+                self.general_information_data.append(general_info) 
+            except:
+                # print("nil")
+                self.general_information_data.append("nil")
+
             # try:
             #     early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
             #     # print(early_stage_info)
-            #     self.staff_info.append(early_stage_info)
+            #     self.early_stage_programs_data.append(early_stage_info)
             # except:
             #     # print("nil")
-            #     self.staff_info.append("nil")
-                
-            try:            
-                # Staff Information
-                education_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
-                # print(education_info)
-                self.service_offered.append(education_info) 
-            except:
-                # print("nil")
-                self.service_offered.append("nil")
-                
+            #     self.early_stage_programs_data.append("nil")
+
+            # try:            
+            #     # Staff Information
+            #     education_info = soup.find("div", id= "tab-2").get_text(strip=True, separator=' ')
+            #     # print(education_info)
+            #     self.education_programs_data.append(education_info) 
+            # except:
+            #     # print("nil")
+            #     self.education_programs_data.append("nil")
+
             # try:            
             #     suuport__grp_info= soup.find("div",id= "tab-3").get_text(strip=True, separator=' ')
             #     # print(suuport__grp_info)
-            #     self.pricing.append(suuport__grp_info)
+            #     self.support_groups_data.append(suuport__grp_info)
             # except:
             #     # print("nil")
-            #     self.pricing.append("nil")
-                
-            # try:            
-            #     social_engagement_info= soup.find("div",id= "tab-4").get_text(strip=True, separator=' ')
-            #     # print(social_engagement_info)
-            #     self.financial.append(social_engagement_info)
-            # except:
-            #     # print("nil")
-            #     self.financial.append("nil")
+            #     self.support_groups_data.append("nil")
+
             # try:            
             #     social_engagement_info= soup.find("div",id= "tab-5").get_text(strip=True, separator=' ')
             #     # print(social_engagement_info)
-            #     self.avail.append(social_engagement_info)
+            #     self.social_engagement_programs_data.append(social_engagement_info)
             # except:
             #     # print("nil")
-            #     self.avail.append("nil")
-            
-            s+=1
+            #     self.social_engagement_programs_data.append("nil")
 
+            s+=1
                 
         
         

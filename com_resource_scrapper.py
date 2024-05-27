@@ -39,8 +39,8 @@ class Community_resource_scrapper:
         self.state = []
         self.city = []
         self.zipcode = []
-        self.general_information_data= []
-        self.cms_data = []
+        # self.general_information_data= []
+        # self.cms_data = []
         # self.service_offered = []
         # self.pricing = []
         # self.financial = []
@@ -50,9 +50,9 @@ class Community_resource_scrapper:
         self.options = Options()
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)     
-        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=2&location="
-        care_type = "Skilled Nursing"
-        file_name = "Skilled_Nursing"
+        scrapping_url = "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location="
+        care_type = "Area Agency on Aging"
+        file_name = "Area_Agency_on_Aging"
         with alive_bar(len(zipcodes)) as bar:              
             bar.title(f'Scrapping {care_type}:')
             for zip in zipcodes:
@@ -81,8 +81,8 @@ class Community_resource_scrapper:
             'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
             'Address': self.addresses,
             'City':self.city, 'State': self.state, 'Zipcode' : self.zipcode,
-            'General Information' : self.general_information_data, 
-            'CMS Data' : self.cms_data,
+            # 'General Information' : self.general_information_data, 
+            # 'CMS Data' : self.cms_data,
             # 'Service Offered' : self.service_offered,
             # 'Pricing' : self.pricing,
             # 'Financial Information' : self.financial,
@@ -145,32 +145,32 @@ class Community_resource_scrapper:
                 self.driver.find_element(By.LINK_TEXT, 'Next').click()
             except Exception as e:                
                 break
-        length = len(scrapped_links)
-        # print(length)
-        s = 0
-        while s < length:
+        # length = len(scrapped_links)
+        # # print(length)
+        # s = 0
+        # while s < length:
 
-            response = requests.get(scrapped_links[s])
-            soup = BeautifulSoup(response.content, "html.parser")
-            for h2 in soup.find_all('h2'):
-                h2.string = h2.string + '-'
+        #     response = requests.get(scrapped_links[s])
+        #     soup = BeautifulSoup(response.content, "html.parser")
+        #     for h2 in soup.find_all('h2'):
+        #         h2.string = h2.string + '-'
                 
-            time.sleep(5)
-            try:       
-                general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
-                # print(general_info)
-                self.general_information_data.append(general_info) 
-            except:
-                # print("nil")
-                self.general_information_data.append("nil")
+        #     time.sleep(5)
+        #     try:       
+        #         general_info = soup.find("div", id= "tab-0").get_text(strip=True, separator=' ')
+        #         # print(general_info)
+        #         self.general_information_data.append(general_info) 
+        #     except:
+        #         # print("nil")
+        #         self.general_information_data.append("nil")
 
-            try:
-                early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
-                # print(early_stage_info)
-                self.cms_data.append(early_stage_info)
-            except:
-                # print("nil")
-                self.cms_data.append("nil")
+        #     try:
+        #         early_stage_info = soup.find("div", id= "tab-1").get_text(strip=True, separator=' ')
+        #         # print(early_stage_info)
+        #         self.cms_data.append(early_stage_info)
+        #     except:
+        #         # print("nil")
+        #         self.cms_data.append("nil")
 
             # try:            
             #     # Staff Information
@@ -196,7 +196,7 @@ class Community_resource_scrapper:
             #     # print("nil")
             #     self.financial.append("nil")
 
-            s+=1
+            # s+=1
                 
         
         

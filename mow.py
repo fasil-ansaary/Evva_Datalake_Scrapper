@@ -28,8 +28,6 @@ class Meals_on_wheels_scrapper:
         self.names = []
         self.addresses = []
         self.contact_numbers = []
-        self.state = []
-        self.city = []
     
     def run_meals_on_wheels_scrapper(self):
         self.options = Options()
@@ -51,10 +49,7 @@ class Meals_on_wheels_scrapper:
                     i: {
                         constants.Name: self.names[i],
                         constants.Address: self.addresses[i],
-                        constants.Contact: self.contact_numbers[i],
-                        constants.City: self.city[i],
-                        constants.State: self.state[i],
-                        constants.Zipcode: str(zip)                 
+                        constants.Contact: self.contact_numbers[i],                                      
                     }
                 }
                 new_data.append(data)
@@ -66,8 +61,7 @@ class Meals_on_wheels_scrapper:
             for i in range(len(self.names)):
                 data_list.append(
                     [
-                        self.names[i], self.addresses[i], self.contact_numbers[i],
-                        self.city[i], self.state[i], zip  
+                        self.names[i], self.addresses[i], self.contact_numbers[i]                        
                     ])
 
             df = pd.DataFrame(data_list, columns=constants.header_column)
@@ -104,17 +98,6 @@ class Meals_on_wheels_scrapper:
             for i in self.addresses:
                 if i in self.contact_numbers:
                     self.addresses.remove(i)
-                else:
-                    i = i[:-13]
-                
-            self.names = list(OrderedDict.fromkeys(self.names))
-            self.addresses = list(OrderedDict.fromkeys(self.addresses))
-            self.contact_numbers = list(OrderedDict.fromkeys(self.contact_numbers))
-                        
-            for i in self.addresses:                
-                get_city_state_info = find_city_state_from_zip(zip, [])
-                self.city.append(get_city_state_info[0])
-                self.state.append(get_city_state_info[1])  
                 
         except NoSuchElementException:
             logger.info(f"No service found at {zip}")

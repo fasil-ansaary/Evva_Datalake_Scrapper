@@ -24,7 +24,7 @@ warnings.filterwarnings(constants.ignore)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(constants.alive_progress_logger)
 
-zipcodes = zipcode_extractor()
+zipcodes = zipcode_extractor()[:2]
 
 
 class Community_resource_scrapper:

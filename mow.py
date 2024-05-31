@@ -65,6 +65,7 @@ class Meals_on_wheels_scrapper:
                     ])
 
             df = pd.DataFrame(data_list, columns=constants.header_column)
+            df.drop_duplicates(subset=['Address'], inplace=True)
             df.to_csv(constants.meals_on_wheels_csv_file)
 
         self.driver.quit()

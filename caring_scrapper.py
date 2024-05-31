@@ -30,9 +30,9 @@ class Caring_scrapper:
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)
         scrapped_list = []
-        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=memory-care-facilities&location="
-        care_type = 'Memory Care'
-        file_name = 'Memory_Care'
+        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=home-health-agencies&location="
+        care_type = 'Home Health Agency'
+        file_name = 'Home_Health_Agency'
         with alive_bar(len(zipcodes)) as bar:
             bar.title(f'Scrapping for {care_type}:')
             for zip in zipcodes:
@@ -53,6 +53,8 @@ class Caring_scrapper:
             df = pd.DataFrame(scrapped_list, columns=constants.header)
             df.drop_duplicates(subset=['Address'], inplace=True)
             df.reset_index(inplace=True, drop=True)
+            # pd.set_option('display.max_columns', None)
+            # print(df)
             df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
             logger.info(constants.scrape_message+str(care_type))
     

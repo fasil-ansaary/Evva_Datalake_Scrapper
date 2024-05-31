@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from alive_progress import alive_bar
 import logging
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -29,9 +30,9 @@ class Caring_scrapper:
         self.options.headless = True
         self.driver = webdriver.Chrome(options=self.options)
         scrapped_list = []
-        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=geriatric-care-managers&location="
-        care_type = "Geriatric Care Managers CAR"
-        file_name = "Geriatric_Care_Managers_CAR"
+        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=memory-care-facilities&location="
+        care_type = 'Memory Care'
+        file_name = 'Memory_Care'
         with alive_bar(len(zipcodes)) as bar:
             bar.title(f'Scrapping for {care_type}:')
             for zip in zipcodes:
@@ -42,13 +43,17 @@ class Caring_scrapper:
                 # Quit the browser
                 bar()
             self.driver.quit()
-            with open(constants.file_path+file_name+constants.csv_extension, mode=constants.write_mode) as csvfile:
-                writer = csv.writer(csvfile)
-                # Write header
-                writer.writerow(constants.header)
+            # with open(constants.file_path+file_name+constants.csv_extension, mode=constants.write_mode) as csvfile:
+            #     writer = csv.writer(csvfile)
+            #     # Write header
+            #     writer.writerow(constants.header)
             
-                # Write data
-                writer.writerows(scrapped_list)
+            #     # Write data
+            #     writer.writerows(scrapped_list)
+            df = pd.DataFrame(scrapped_list, columns=constants.header)
+            df.drop_duplicates(subset=['Address'], inplace=True)
+            df.reset_index(inplace=True, drop=True)
+            df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
             logger.info(constants.scrape_message+str(care_type))
     
     def scrape_care_type_info(self, url, zip, care_type, scrapped_list):
@@ -63,12 +68,34 @@ class Caring_scrapper:
         # Extract the text from these elements
         
         for element in elements:
+            reviews = ''
+            distance = ''
+            address = ''
             lst2 = [care_type]
             data = element.text
             data = data.replace('$', '')   
-            lst2.extend(data.split('\n'))
+            contents = data.split('\n')
+            name = contents[0]
+            contents.pop(0)
+            i = 0
+            while i < len(contents):
+                if 'special promotion!' in contents[i].lower():
+                    contents.remove(contents[i])    
+                    i -= 1
+                if 'ends in' in contents[i].lower():
+                    contents.remove(contents[i])    
+                    i -= 1
+                if 'review' in contents[i].lower() or 'reviews' in contents[i].lower():
+                    reviews = contents[i]
+                    contents[i] = ''
+                if 'mile' in contents[i].lower() or 'miles' in contents[i].lower():    
+                    distance = contents[i]
+                    contents[i] = ''
+                i += 1
+            address = ''.join(contents)
+            lst2.extend([name, address, reviews, distance])
             lst2 = find_city_state_from_zip(zip, lst2)
-            lst2 = get_coordinates(lst2[2], lst2)    
+            # lst2 = get_coordinates(lst2[2], lst2)    
             lst2.append(zip)    
             scrapped_list.append(lst2)                    
         return scrapped_list

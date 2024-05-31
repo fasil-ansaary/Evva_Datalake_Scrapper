@@ -4,8 +4,8 @@ value_error_message = "Could not retrieve location information from the address.
 webpage_class_tag = "//div[@class='content sc-ifAKCX cFlEyZ sc-bdVaJa jgrpHL']"
 line_break = '\n'
 dollar_sign = '$'
-header = ['Care Type', 'Name', 'Address', 'Review Count', 'Distance',
-          'City', 'State', 'Lattitude', 'Longitude', 'Zipcode']
+header = ['Care Type', 'Name', 'Address', 'Review Count', 'Distance_from_Zip_to_Address',
+          'City_Corres_to_Zip', 'State_Corres_to_Zip', 'Zipcode_feeded_to_scrape']
 write_mode = 'w'
 csv_extension = ".csv"
 file_path = "/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/"

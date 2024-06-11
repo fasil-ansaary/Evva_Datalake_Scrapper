@@ -56,10 +56,11 @@ mow_url = 'https://www.mealsonwheelsamerica.org/signup/aboutmealsonwheels/find-p
 header_column = ["Name", "Address", "Contact"]
 geriatrics_url_to_scrape = "https://account.americangeriatrics.org/findageriatricshealthcareprofessional"
 states_to_scrape = ["Michigan","Illinois","California", "Texas", "New York", "Georgia"]
+states_to_scrape_testing = ["Alabama"]
 geriatrics_header_column = [
-                                "Full Name", "Designation", "Primary Affiliation", "Primary Role",
-                                "Address", "Phone", "Fax Number", "Discipline", "Clinical Specialty", 
-                                "Secondary Specialty", "State", "Lattitude", "Longitude"
+                                "Full Name", "Designation", "Primary Role",
+                                "Address", "Contact", "Discipline", "Specialty", 
+                                "State", "Primary Affiliation"
                                 ]
 Name = "Name"
 Designation = "Designation"
@@ -69,7 +70,7 @@ Address = "Address"
 Phone = "Phone"
 Fax_Number = "Fax Number"
 Discipline = "Discipline"
-Clinical_Specialty = "Clinical Specialty"
+Clinical_Specialty = "Specialty"
 Secondary_Specialty = "Secondary Specialty"
 State = "State"
 Lattitude = "Lattitude"

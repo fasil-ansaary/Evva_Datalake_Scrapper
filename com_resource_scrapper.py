@@ -53,9 +53,9 @@ class Community_resource_scrapper:
                 { 
                 'Program' : self.program,
                 'Name': self.names, 'Links': self.links, 'Contacts': self.contact, 
-                'Address': self.addresses,'Zipcode' : self.zipcode,
+                'Address': self.addresses
                 })            
-            csv_sys_path = constants.file_path+file_name+constants.csv_extension
+            csv_sys_path = file_name+constants.csv_extension
             df.to_csv(csv_sys_path, index=False)
             self.options = Options()
             self.options.headless = True
@@ -86,8 +86,8 @@ class Community_resource_scrapper:
                 for box in boxs:
                     l = 0
                     #print(box)
-                    try:                        
-                        self.program.append(program_name)
+                    self.program.append(program_name)
+                    try:                                                
                         self.names.append(box.find('a').text.strip())
                     except:
                         self.names.append("NIL")
@@ -100,20 +100,8 @@ class Community_resource_scrapper:
                     try:
                         add = box.find('input', {'id': 'Address'})['value']
                         self.addresses.append(add)                        
-                        # coord = get_coordinates(add,[])
-                        # self.lattitude.append(coord[0])
-                        # self.longitude.append(coord[1])
-                        self.zipcode.append(add[-5:])
-                        # city_state_info = find_city_state_from_zip(add[-5:], [])
-                        # self.city.append(city_state_info[0])
-                        # self.state.append(city_state_info[1])
                     except:
                         self.addresses.append("NIL")
-                        # self.city.append("NIL")
-                        # self.state.append("NIL")
-                        self.zipcode.append("NIL")
-                        # self.lattitude.append("NIL")
-                        # self.longitude.append("NIL")
                         
                     try:
                         ph = box.find('i', {'class': 'fa fa-phone'}).findNext('a').text
@@ -132,13 +120,11 @@ class Community_resource_scrapper:
         df['Links']= self.links 
         df['Contacts'] = self.contact 
         df['Address'] = self.addresses
-        df['Zipcode'] = self.zipcode
         df.to_csv(dataframe_path, index=False)
         self.program = []
         self.addresses= []
         self.names = []
         self.links = []
-        self.zipcode = []
         self.contact = []
         
                 

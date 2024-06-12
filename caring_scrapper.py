@@ -26,36 +26,37 @@ zipcodes = zipcode_extractor()
 
 class Caring_scrapper:
     def run_caring_scrapper(self):
-        self.options = Options()
-        self.options.headless = True
-        self.driver = webdriver.Chrome(options=self.options)
-        scrapped_list = []
-        scrapping_url = "https://www.caring.com/local/search?utf8=%E2%9C%93&type=home-health-agencies&location="
-        care_type = 'Home Health Agency'
-        file_name = 'Home_Health_Agency'
-        with alive_bar(len(zipcodes)) as bar:
-            bar.title(f'Scrapping for {care_type}:')
-            for zip in zipcodes:
-                # Set up Selenium                
-                my_url = url_updater(scrapping_url,zip)
-                    # Call the function to scrape information
-                scrapped_list=self.scrape_care_type_info(my_url, zip, care_type, scrapped_list)
-                # Quit the browser
-                bar()
+        for i in constants.caretype_to_url_mapper: 
+            self.options = Options()
+            self.options.headless = True
+            self.driver = webdriver.Chrome(options=self.options)
+            scrapped_list = []
+            scrapping_url = constants.caretype_to_url_mapper[i]
+            care_type = i
+            file_name = '_'.join(list(i.split())) 
+            with alive_bar(len(zipcodes)) as bar:
+                bar.title(f'Scrapping for {i}:')
+                for zip in zipcodes:
+                    # Set up Selenium                
+                    my_url = url_updater(scrapping_url,zip)
+                        # Call the function to scrape information
+                    scrapped_list=self.scrape_care_type_info(my_url, zip, care_type, scrapped_list)
+                    # Quit the browser
+                    bar()
             self.driver.quit()
-            # with open(constants.file_path+file_name+constants.csv_extension, mode=constants.write_mode) as csvfile:
-            #     writer = csv.writer(csvfile)
-            #     # Write header
-            #     writer.writerow(constants.header)
-            
-            #     # Write data
-            #     writer.writerows(scrapped_list)
+                # with open(constants.file_path+file_name+constants.csv_extension, mode=constants.write_mode) as csvfile:
+                #     writer = csv.writer(csvfile)
+                #     # Write header
+                #     writer.writerow(constants.header)
+                
+                #     # Write data
+                #     writer.writerows(scrapped_list)
             df = pd.DataFrame(scrapped_list, columns=constants.header)
             df.drop_duplicates(subset=['Address'], inplace=True)
             df.reset_index(inplace=True, drop=True)
-            # pd.set_option('display.max_columns', None)
-            # print(df)
-            df.to_csv(constants.file_path+file_name+constants.csv_extension, index=False)
+                # pd.set_option('display.max_columns', None)
+                # print(df)
+            df.to_csv(file_name+constants.csv_extension, index=False)
             logger.info(constants.scrape_message+str(care_type))
     
     def scrape_care_type_info(self, url, zip, care_type, scrapped_list):

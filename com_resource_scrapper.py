@@ -114,13 +114,16 @@ class Community_resource_scrapper:
                 self.driver.find_element(By.LINK_TEXT, 'Next').click()
             except Exception as e:                
                 break
-        df = pd.read_csv(dataframe_path)
-        df['Program'] = self.program
-        df['Name'] = self.names 
-        df['Links']= self.links 
-        df['Contacts'] = self.contact 
-        df['Address'] = self.addresses
-        df.to_csv(dataframe_path, index=False)
+        list_check = [self.program, self.names, self.links, self.contact, self.addresses]
+        first_length = list_check[0]
+        if all(len(sublist) == first_length for sublist in list_check):
+            df = pd.read_csv(dataframe_path)
+            df['Program'] = self.program
+            df['Name'] = self.names 
+            df['Links']= self.links 
+            df['Contacts'] = self.contact 
+            df['Address'] = self.addresses
+            df.to_csv(dataframe_path, index=False)
         self.program = []
         self.addresses= []
         self.names = []

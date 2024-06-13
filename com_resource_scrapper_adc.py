@@ -69,7 +69,7 @@ class Community_resource_scrapper:
                     'Staff Information': self.staff_information_data,'Services':self.service_offered_data,
                     'Financial Information':self.financial_information_data,'Availability':self.availability_information_data,
                     'Pricing and Availability':self.pricing_availability_data, 'Overview of Services':self.overview_information_data,
-                    # 'Zipcode_feeded_to_scrape': self.zipcode
+                    'Zipcode_feeded_to_scrape': self.zipcode
                     }
                 )
             df.drop_duplicates(subset=['Address'], inplace=True)            
@@ -90,6 +90,7 @@ class Community_resource_scrapper:
                     l = 0
                     #print(box)
                     self.program.append(program_name)
+                    self.zipcode.append(zip)
                     try:                                                
                         self.names.append(box.find('a').text.strip())
                     except:

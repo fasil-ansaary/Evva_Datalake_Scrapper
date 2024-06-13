@@ -10,8 +10,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
-from controllers.state_city_identifier import find_city_state_from_zip
-from controllers.map_controller import get_coordinates
 from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater

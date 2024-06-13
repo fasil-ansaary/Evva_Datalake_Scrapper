@@ -24,7 +24,6 @@ warnings.filterwarnings(constants.ignore)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(constants.alive_progress_logger)
 
-zipcodes = zipcode_extractor()
 
 
 class Community_resource_scrapper:
@@ -49,39 +48,60 @@ class Community_resource_scrapper:
         self.features_data = []
         self.experiences_data = []
     
-    def community_resource_scrapper(self):                  
-        for i in constants.community_resource_finder_url_mapper:   
-            file_name = '_'.join(list(i.split()))                        
-            csv_sys_path = file_name+"_MI"+constants.csv_extension
-            self.options = Options()
-            self.options.headless = True
-            self.driver = webdriver.Chrome(options=self.options)                
-            scrapping_url = constants.community_resource_finder_url_mapper[i]
-            care_type = i              
-            with alive_bar(len(zipcodes)) as bar:                               
-                bar.title(f'Scrapping {i}:')    
-                for zip in zipcodes:
-                    com_res_url = url_updater(scrapping_url, zip)
-                    self.com_res_url_scrapper(com_res_url, care_type, zip)                                            
-                    bar()            
-            df = pd.DataFrame(
-                {
-                    'Program' : self.program, 'Name': self.names, 'Links': self.links, 'Contacts': self.contact,
-                    'Distance': self.distances, 'Address': self.addresses, 'General Information': self.gen_information_data,
-                    'Staff Information': self.staff_information_data,
-                    'Services':self.service_offered_data,
-                    'Financial Information':self.financial_information_data,
-                    'Availability':self.availability_information_data,
-                    'Pricing and Availability':self.pricing_availability_data, 
-                    # 'Overview of Services':self.overview_information_data,
-                    'Experiences': self.experiences_data,
-                    'Zipcode_feeded_to_scrape': self.zipcode
-                    }
-                )
-            df.drop_duplicates(subset=['Address'], inplace=True)            
-            df.to_csv(csv_sys_path, index=False)
-            logger.info(constants.scrape_message+str(care_type))   
-        
+    def community_resource_scrapper(self):    
+        states_to_scrape = ["FL", "MI", "IL", "CA", "TX", "NY", "GA"]
+        for state in states_to_scrape:
+            zipcodes = zipcode_extractor(state)              
+            for i in constants.community_resource_finder_url_mapper:   
+                file_name = '_'.join(list(i.split()))                        
+                csv_sys_path = file_name+"_"+state+constants.csv_extension
+                self.options = Options()
+                self.options.headless = True
+                self.driver = webdriver.Chrome(options=self.options)                
+                scrapping_url = constants.community_resource_finder_url_mapper[i]
+                care_type = i              
+                with alive_bar(len(zipcodes)) as bar:                               
+                    bar.title(f'Scrapping {i}:')    
+                    for zip in zipcodes:
+                        com_res_url = url_updater(scrapping_url, zip)
+                        self.com_res_url_scrapper(com_res_url, care_type, zip)                                            
+                        bar()            
+                df = pd.DataFrame(
+                    {
+                        'Program' : self.program, 'Name': self.names, 'Links': self.links, 'Contacts': self.contact,
+                        'Distance': self.distances, 'Address': self.addresses, 'General Information': self.gen_information_data,
+                        'Staff Information': self.staff_information_data,
+                        'Services':self.service_offered_data,
+                        'Financial Information':self.financial_information_data,
+                        'Availability':self.availability_information_data,
+                        'Pricing and Availability':self.pricing_availability_data, 
+                        # 'Overview of Services':self.overview_information_data,
+                        'Experiences': self.experiences_data,
+                        'Zipcode_feeded_to_scrape': self.zipcode
+                        }
+                    )
+                df.drop_duplicates(subset=['Address'], inplace=True)            
+                df.to_csv(csv_sys_path, index=False)
+                logger.info(constants.scrape_message+str(care_type))   
+            self.clean_constructors()
+    
+    def clean_constructors(self):
+        self.names.clear()
+        self.links.clear()
+        self.addresses.clear()
+        self.contact.clear()     
+        self.program.clear()
+        self.distances.clear()
+        self.zipcode.clear()
+        self.gen_information_data.clear()
+        self.staff_information_data.clear()
+        self.service_offered_data.clear()
+        self.financial_information_data.clear()
+        self.availability_information_data.clear()
+        self.pricing_availability_data.clear()
+        self.overview_information_data.clear()
+        self.features_data.clear()
+        self.experiences_data.clear()
         
     
     def com_res_url_scrapper(self, url, program_name, zip):
@@ -140,48 +160,48 @@ class Community_resource_scrapper:
                 time.sleep(5)
                 # General Information
                 try:       
-                    general_info = soup.find("div", id= "tabS2P11").get_text(strip=True, separator=' ')
+                    general_info = soup.find("div", id= "tabS2P16").get_text(strip=True, separator=' ')
                     self.gen_information_data.append(general_info) 
                 except:
                     self.gen_information_data.append("nil")
                     
                 try:            
                     # Staff Information
-                    staff_info = soup.find("div", id= "tabS3P11").get_text(strip=True, separator=' ')
+                    staff_info = soup.find("div", id= "tabS3P16").get_text(strip=True, separator=' ')
                     self.staff_information_data.append(staff_info) 
                 except:
                     self.staff_information_data.append("nil")
                     
                 try:            
                     # Services Offered
-                    services_info= soup.find("div",id= "tabS6P11").get_text(strip=True, separator=' ')
+                    services_info= soup.find("div",id= "tabS6P16").get_text(strip=True, separator=' ')
                     self.service_offered_data.append(services_info)
                 except:
                     self.service_offered_data.append("nil")
                 
                 try:    
                     # Pricing & Availability
-                    pricing_availability_info = soup.find("div", id= "tabS9P11").get_text(strip=True, separator=' ')
+                    pricing_availability_info = soup.find("div", id= "tabS9P16").get_text(strip=True, separator=' ')
                     self.pricing_availability_data.append(pricing_availability_info)
                 except:
                     self.pricing_availability_data.append("nil")
                     
                 try:
                     # Experience Information
-                    experiences = soup.find("div", id= "tabS8P11").get_text(strip=True, separator=' ')
+                    experiences = soup.find("div", id= "tabS8P16").get_text(strip=True, separator=' ')
                     self.experiences_data.append(experiences)
                 except:
                     self.experiences_data.append("nil")   
                 try:
                     # Financial Information
-                    financial_info = soup.find("div", id= "tabS4P11").get_text(strip=True, separator=' ')
+                    financial_info = soup.find("div", id= "tabS4P16").get_text(strip=True, separator=' ')
                     self.financial_information_data.append(financial_info)
                 except:
                     self.financial_information_data.append("nil")  
                 
                 try:
                     # Availability
-                    availability_info = soup.find("div", id= "tabS5P11").get_text(strip=True, separator=' ')
+                    availability_info = soup.find("div", id= "tabS5P16").get_text(strip=True, separator=' ')
                     self.availability_information_data.append(availability_info)
                 except:
                     self.availability_information_data.append("nil")

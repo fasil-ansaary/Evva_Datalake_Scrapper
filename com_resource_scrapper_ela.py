@@ -49,7 +49,7 @@ class Community_resource_scrapper:
     def community_resource_scrapper(self):    
         states_to_scrape = ["FL", "MI", "IL", "CA", "TX", "NY", "GA"]
         for state in states_to_scrape:
-            zipcodes = zipcode_extractor(state)[:1]     
+            zipcodes = zipcode_extractor(state)  
             for i in constants.community_resource_finder_url_mapper:   
                 file_name = '_'.join(list(i.split()))                        
                 csv_sys_path = file_name+"_"+state+constants.csv_extension

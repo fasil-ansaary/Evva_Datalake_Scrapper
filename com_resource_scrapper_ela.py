@@ -61,7 +61,7 @@ class Community_resource_scrapper:
                 scrapping_url = constants.community_resource_finder_url_mapper[i]
                 care_type = i              
                 with alive_bar(len(zipcodes)) as bar:                               
-                    bar.title(f'Scrapping {i}:')    
+                    bar.title(f'Scrapping {i} for {state}:')    
                     for zip in zipcodes:
                         com_res_url = url_updater(scrapping_url, zip)
                         self.com_res_url_scrapper(com_res_url, care_type, zip)                                            

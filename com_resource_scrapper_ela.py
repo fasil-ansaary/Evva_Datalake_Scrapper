@@ -52,7 +52,7 @@ class Community_resource_scrapper:
     def community_resource_scrapper(self):                  
         for i in constants.community_resource_finder_url_mapper:   
             file_name = '_'.join(list(i.split()))                        
-            csv_sys_path = file_name+constants.csv_extension
+            csv_sys_path = file_name+"_MI"+constants.csv_extension
             self.options = Options()
             self.options.headless = True
             self.driver = webdriver.Chrome(options=self.options)                

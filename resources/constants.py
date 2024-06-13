@@ -30,7 +30,7 @@ community_resource_finder_url_mapper = {
     # "Alzheimer Association Chapters" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=84&location=",
     # "Alzheimer Early Stage Programs" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=94&location=",
     # "AARP Events" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=89&location=",
-    # "Adult Day Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=1&location=",
+    "Adult Day Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=1&location=",
     # "Alzheimer Education Programs" :"https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=93&location=",
     # "Relocation Advisors" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=48&location=",
     # "AARP State Offices" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=87&location=",
@@ -45,7 +45,7 @@ community_resource_finder_url_mapper = {
     # "Home Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location=",
     # "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
     # "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
-    "Geriatric Care Managers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
+    # "Geriatric Care Managers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
     # "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
 }
 

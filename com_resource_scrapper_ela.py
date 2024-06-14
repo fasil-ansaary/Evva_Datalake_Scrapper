@@ -49,7 +49,7 @@ class Community_resource_scrapper:
         self.experiences_data = []
     
     def community_resource_scrapper(self):    
-        states_to_scrape = ["MI"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
+        states_to_scrape = ["IL"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
         for state in states_to_scrape:
             zipcodes = zipcode_extractor(state)  
             df = pd.DataFrame(

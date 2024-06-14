@@ -136,6 +136,8 @@ class Community_resource_scrapper:
                         self.zipcode.append(zip)   
                     except:
                         self.names.append("NIL")
+                        self.program.append(program_name)
+                        self.zipcode.append(zip) 
                     try:                        
                         l = "https://www.communityresourcefinder.org"+box.find('a')['href']
                         self.links.append(l)

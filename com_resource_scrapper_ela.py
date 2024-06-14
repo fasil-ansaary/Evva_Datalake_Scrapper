@@ -49,7 +49,7 @@ class Community_resource_scrapper:
         self.experiences_data = []
     
     def community_resource_scrapper(self):    
-        states_to_scrape = ["FL", "MI", "IL", "CA", "TX", "NY", "GA"]
+        states_to_scrape = ["MI"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
         for state in states_to_scrape:
             zipcodes = zipcode_extractor(state)  
             df = pd.DataFrame(
@@ -74,12 +74,13 @@ class Community_resource_scrapper:
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)                
                 scrapping_url = constants.community_resource_finder_url_mapper[i]
+                url_specific_id = scrapping_url.split('Id=', 2)[1][:2]
                 care_type = i              
                 with alive_bar(len(zipcodes)) as bar:                               
                     bar.title(f'Scrapping {i} for {state}:')    
                     for zip in zipcodes:
                         com_res_url = url_updater(scrapping_url, zip)
-                        self.com_res_url_scrapper(com_res_url, care_type, zip, csv_sys_path)                                            
+                        self.com_res_url_scrapper(com_res_url, care_type, zip, url_specific_id)                                            
                         df = pd.read_csv(csv_sys_path)
                         try:
                             df = df.reindex(range(len(df) + len(self.program)))
@@ -125,7 +126,7 @@ class Community_resource_scrapper:
         self.experiences_data.clear()
         
     
-    def com_res_url_scrapper(self, url, program_name, zip, csv_path):
+    def com_res_url_scrapper(self, url, program_name, zip, url_specific_id):
         self.driver.get(url)
         scrapped_links = []
         while True:
@@ -179,52 +180,60 @@ class Community_resource_scrapper:
                 soup = BeautifulSoup(response.content, "html.parser")
                 for h2 in soup.find_all('h2'):
                     h2.string = h2.string + '-'
-                    
+                
+                #ids for scrapping
+                gen_id = "tabS2P"+str(url_specific_id)
+                staff_id = "tabS3P"+str(url_specific_id)
+                service_id = "tabS6P"+str(url_specific_id)
+                pricing_id = "tabS9P"+str(url_specific_id)
+                exp_id = "tabS8P"+str(url_specific_id)
+                financial_id = "tabS4P"+str(url_specific_id)
+                availability_id = "tabS5P"+str(url_specific_id)
                 time.sleep(5)
                 # General Information
-                try:       
-                    general_info = soup.find("div", id= "tabS2P73").get_text(strip=True, separator=' ')
+                try:                           
+                    general_info = soup.find("div", id= gen_id).get_text(strip=True, separator=' ')
                     self.gen_information_data.append(general_info) 
                 except:
                     self.gen_information_data.append("nil")
                     
                 try:            
                     # Staff Information
-                    staff_info = soup.find("div", id= "tabS3P73").get_text(strip=True, separator=' ')
+                    staff_info = soup.find("div", id= staff_id).get_text(strip=True, separator=' ')
                     self.staff_information_data.append(staff_info) 
                 except:
                     self.staff_information_data.append("nil")
                     
                 try:            
                     # Services Offered
-                    services_info= soup.find("div",id= "tabS6P73").get_text(strip=True, separator=' ')
+                    services_info= soup.find("div",id= service_id).get_text(strip=True, separator=' ')
                     self.service_offered_data.append(services_info)
                 except:
                     self.service_offered_data.append("nil")
                 
                 try:    
                     # Pricing & Availability
-                    pricing_availability_info = soup.find("div", id= "tabS9P73").get_text(strip=True, separator=' ')
+                    pricing_availability_info = soup.find("div", id= pricing_id).get_text(strip=True, separator=' ')
                     self.pricing_availability_data.append(pricing_availability_info)
                 except:
                     self.pricing_availability_data.append("nil")
                     
                 try:
                     # Experience Information
-                    experiences = soup.find("div", id= "tabS8P73").get_text(strip=True, separator=' ')
+                    experiences = soup.find("div", id= exp_id).get_text(strip=True, separator=' ')
                     self.experiences_data.append(experiences)
                 except:
                     self.experiences_data.append("nil")   
                 try:
                     # Financial Information
-                    financial_info = soup.find("div", id= "tabS4P73").get_text(strip=True, separator=' ')
+                    financial_info = soup.find("div", id= financial_id).get_text(strip=True, separator=' ')
                     self.financial_information_data.append(financial_info)
                 except:
                     self.financial_information_data.append("nil")  
                 
                 try:
                     # Availability
-                    availability_info = soup.find("div", id= "tabS5P73").get_text(strip=True, separator=' ')
+                    availability_info = soup.find("div", id= availability_id).get_text(strip=True, separator=' ')
                     self.availability_information_data.append(availability_info)
                 except:
                     self.availability_information_data.append("nil")

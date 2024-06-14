@@ -41,12 +41,14 @@ community_resource_finder_url_mapper = {
     # "Area Agency on Aging" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=7&location=",
     # "Neurologists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=77&location=",
     # "Independent Living CR" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=28&location=",
-    "Home Health Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=17&location=",
+    # "Home Health Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=17&location=",
     # "Home Care" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=16&location=",
     # "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
     # "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
     # "Geriatric Care Managers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
     # "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
+    "Referral Agencies" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=78&location="
+    # "Diagnostic Centers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=73&location="
 }
 
 

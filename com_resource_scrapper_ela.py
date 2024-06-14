@@ -160,48 +160,48 @@ class Community_resource_scrapper:
                 time.sleep(5)
                 # General Information
                 try:       
-                    general_info = soup.find("div", id= "tabS2P48").get_text(strip=True, separator=' ')
+                    general_info = soup.find("div", id= "tabS2P64").get_text(strip=True, separator=' ')
                     self.gen_information_data.append(general_info) 
                 except:
                     self.gen_information_data.append("nil")
                     
                 try:            
                     # Staff Information
-                    staff_info = soup.find("div", id= "tabS3P48").get_text(strip=True, separator=' ')
+                    staff_info = soup.find("div", id= "tabS3P64").get_text(strip=True, separator=' ')
                     self.staff_information_data.append(staff_info) 
                 except:
                     self.staff_information_data.append("nil")
                     
                 try:            
                     # Services Offered
-                    services_info= soup.find("div",id= "tabS6P48").get_text(strip=True, separator=' ')
+                    services_info= soup.find("div",id= "tabS6P64").get_text(strip=True, separator=' ')
                     self.service_offered_data.append(services_info)
                 except:
                     self.service_offered_data.append("nil")
                 
                 try:    
                     # Pricing & Availability
-                    pricing_availability_info = soup.find("div", id= "tabS9P48").get_text(strip=True, separator=' ')
+                    pricing_availability_info = soup.find("div", id= "tabS9P64").get_text(strip=True, separator=' ')
                     self.pricing_availability_data.append(pricing_availability_info)
                 except:
                     self.pricing_availability_data.append("nil")
                     
                 try:
                     # Experience Information
-                    experiences = soup.find("div", id= "tabS8P48").get_text(strip=True, separator=' ')
+                    experiences = soup.find("div", id= "tabS8P64").get_text(strip=True, separator=' ')
                     self.experiences_data.append(experiences)
                 except:
                     self.experiences_data.append("nil")   
                 try:
                     # Financial Information
-                    financial_info = soup.find("div", id= "tabS4P48").get_text(strip=True, separator=' ')
+                    financial_info = soup.find("div", id= "tabS4P64").get_text(strip=True, separator=' ')
                     self.financial_information_data.append(financial_info)
                 except:
                     self.financial_information_data.append("nil")  
                 
                 try:
                     # Availability
-                    availability_info = soup.find("div", id= "tabS5P48").get_text(strip=True, separator=' ')
+                    availability_info = soup.find("div", id= "tabS5P64").get_text(strip=True, separator=' ')
                     self.availability_information_data.append(availability_info)
                 except:
                     self.availability_information_data.append("nil")

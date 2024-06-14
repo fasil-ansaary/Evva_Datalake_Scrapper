@@ -46,8 +46,8 @@ community_resource_finder_url_mapper = {
     # "Geriatricians" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=75&location=",
     # "Geriatric Psychiatrists" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=76&location=",
     # "Geriatric Care Managers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=15&location=",
-    # "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
-    "Referral Agencies" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=78&location="
+    "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
+    # "Referral Agencies" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=78&location="
     # "Diagnostic Centers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=73&location="
 }
 

@@ -82,20 +82,22 @@ class Community_resource_scrapper:
                         self.com_res_url_scrapper(com_res_url, care_type, zip, csv_sys_path)                                            
                         df = pd.read_csv(csv_sys_path)
                         try:
-                            df['Program']= self.program
-                            df['Name'] = self.names 
-                            df['Links']= self.links
-                            df['Contacts']= self.contact
-                            df['Distance']= self.distances
-                            df['Address']= self.addresses
-                            df['General Information']= self.gen_information_data
-                            df['Staff Information']= self.staff_information_data
-                            df['Services']=self.service_offered_data
-                            df['Financial Information']=self.financial_information_data
-                            df['Availability']=self.availability_information_data
-                            df['Pricing and Availability']=self.pricing_availability_data 
-                            df['Experiences']= self.experiences_data
-                            df['Zipcode_feeded_to_scrape']= self.zipcode
+                            df = df.reindex(range(len(df) + len(self.program)))
+                            # Appending the new values
+                            df['Program'].iloc[-len(self.program):] = self.program
+                            df['Name'].iloc[-len(self.names):] = self.names
+                            df['Links'].iloc[-len(self.links):] = self.links
+                            df['Contacts'].iloc[-len(self.contact):] = self.contact
+                            df['Distance'].iloc[-len(self.distances):] = self.distances
+                            df['Address'].iloc[-len(self.addresses):] = self.addresses
+                            df['General Information'].iloc[-len(self.gen_information_data):] = self.gen_information_data
+                            df['Staff Information'].iloc[-len(self.staff_information_data):] = self.staff_information_data
+                            df['Services'].iloc[-len(self.service_offered_data):] = self.service_offered_data
+                            df['Financial Information'].iloc[-len(self.financial_information_data):] = self.financial_information_data
+                            df['Availability'].iloc[-len(self.availability_information_data):] = self.availability_information_data
+                            df['Pricing and Availability'].iloc[-len(self.pricing_availability_data):] = self.pricing_availability_data
+                            df['Experiences'].iloc[-len(self.experiences_data):] = self.experiences_data
+                            df['Zipcode_feeded_to_scrape'].iloc[-len(self.zipcode):] = self.zipcode
                             df.drop_duplicates(subset=['Address'], inplace=True)  
                             df.to_csv(csv_sys_path, index=False)                            
                         except Exception as e:  

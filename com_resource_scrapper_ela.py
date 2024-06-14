@@ -5,6 +5,7 @@ import pandas as pd
 from alive_progress import alive_bar
 import logging
 import csv
+import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -49,7 +50,7 @@ class Community_resource_scrapper:
         self.experiences_data = []
     
     def community_resource_scrapper(self):    
-        states_to_scrape = ["TX"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
+        states_to_scrape = ["MI"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
         for state in states_to_scrape:
             zipcodes = zipcode_extractor(state)  
             df = pd.DataFrame(
@@ -74,7 +75,7 @@ class Community_resource_scrapper:
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)                
                 scrapping_url = constants.community_resource_finder_url_mapper[i]
-                url_specific_id = scrapping_url.split('Id=', 2)[1][:2]
+                url_specific_id = re.findall(r'\d+', scrapping_url)[0]
                 care_type = i              
                 with alive_bar(len(zipcodes)) as bar:                               
                     bar.title(f'Scrapping {i} for {state}:')    
@@ -182,13 +183,13 @@ class Community_resource_scrapper:
                     h2.string = h2.string + '-'
                 
                 #ids for scrapping
-                gen_id = "tabS2P"+str(url_specific_id)
-                staff_id = "tabS3P"+str(url_specific_id)
-                service_id = "tabS6P"+str(url_specific_id)
-                pricing_id = "tabS9P"+str(url_specific_id)
-                exp_id = "tabS8P"+str(url_specific_id)
-                financial_id = "tabS4P"+str(url_specific_id)
-                availability_id = "tabS5P"+str(url_specific_id)
+                gen_id = "tabS2P"+url_specific_id
+                staff_id = "tabS3P"+url_specific_id
+                service_id = "tabS6P"+url_specific_id
+                pricing_id = "tabS9P"+url_specific_id
+                exp_id = "tabS8P"+url_specific_id
+                financial_id = "tabS4P"+url_specific_id
+                availability_id = "tabS5P"+url_specific_id
                 time.sleep(5)
                 # General Information
                 try:                           

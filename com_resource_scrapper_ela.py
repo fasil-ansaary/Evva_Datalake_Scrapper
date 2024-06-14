@@ -80,25 +80,29 @@ class Community_resource_scrapper:
                     for zip in zipcodes:
                         com_res_url = url_updater(scrapping_url, zip)
                         self.com_res_url_scrapper(com_res_url, care_type, zip, csv_sys_path)                                            
-                        bar()            
-                df = pd.DataFrame(
-                    {
-                        'Program' : self.program, 'Name': self.names, 'Links': self.links, 'Contacts': self.contact,
-                        'Distance': self.distances, 'Address': self.addresses, 'General Information': self.gen_information_data,
-                        'Staff Information': self.staff_information_data,
-                        'Services':self.service_offered_data,
-                        'Financial Information':self.financial_information_data,
-                        'Availability':self.availability_information_data,
-                        'Pricing and Availability':self.pricing_availability_data, 
-                        # 'Overview of Services':self.overview_information_data,
-                        'Experiences': self.experiences_data,
-                        'Zipcode_feeded_to_scrape': self.zipcode
-                        }
-                    )
-                df.drop_duplicates(subset=['Address'], inplace=True)            
-                df.to_csv(csv_sys_path, index=False)
-                logger.info(constants.scrape_message+str(care_type))   
-            self.clean_constructors()
+                        df = pd.read_csv(csv_sys_path)
+                        try:
+                            df['Program']= self.program
+                            df['Name'] = self.names 
+                            df['Links']= self.links
+                            df['Contacts']= self.contact
+                            df['Distance']= self.distances
+                            df['Address']= self.addresses
+                            df['General Information']= self.gen_information_data
+                            df['Staff Information']= self.staff_information_data
+                            df['Services']=self.service_offered_data
+                            df['Financial Information']=self.financial_information_data
+                            df['Availability']=self.availability_information_data
+                            df['Pricing and Availability']=self.pricing_availability_data 
+                            df['Experiences']= self.experiences_data
+                            df['Zipcode_feeded_to_scrape']= self.zipcode
+                            df.drop_duplicates(subset=['Address'], inplace=True)  
+                            df.to_csv(csv_sys_path, index=False)                            
+                        except Exception as e:  
+                            print(e)
+                        self.clean_constructors()
+                        bar()                                                      
+                logger.info(constants.scrape_message+str(care_type))               
     
     def clean_constructors(self):
         self.names.clear()
@@ -227,26 +231,7 @@ class Community_resource_scrapper:
                 #     self.overview_information_data.append(overview_info)
                 # except:
                 #     self.overview_information_data.append("nil")
-                s+=73
-        df = pd.read_csv(csv_path)
-        try:
-            df['Program']= self.program
-            df['Name'] = self.names 
-            df['Links']= self.links
-            df['Contacts']= self.contact
-            df['Distance']= self.distances
-            df['Address']= self.addresses
-            df['General Information']= self.gen_information_data
-            df['Staff Information']= self.staff_information_data
-            df['Services']=self.service_offered_data
-            df['Financial Information']=self.financial_information_data
-            df['Availability']=self.availability_information_data
-            df['Pricing and Availability']=self.pricing_availability_data 
-            df['Experiences']= self.experiences_data
-            df['Zipcode_feeded_to_scrape']= self.zipcode
-            df.to_csv(csv_path, index=False)
-        except Exception as e:  
-            print(e)
+                s+=1        
         
         
 if __name__ == '__main__':

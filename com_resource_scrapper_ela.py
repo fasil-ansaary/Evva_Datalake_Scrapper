@@ -130,10 +130,10 @@ class Community_resource_scrapper:
                 for box in boxs:
                     l = 0
                     #print(box)                    
-                    try:       
-                        self.program.append(program_name)
-                        self.zipcode.append(zip)                                         
+                    try:                                                                     
                         self.names.append(box.find('a').text.strip())
+                        self.program.append(program_name)
+                        self.zipcode.append(zip)   
                     except:
                         self.names.append("NIL")
                     try:                        

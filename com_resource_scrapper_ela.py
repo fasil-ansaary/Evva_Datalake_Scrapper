@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from alive_progress import alive_bar
 import logging
-import csv
+import os
 import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -70,7 +70,12 @@ class Community_resource_scrapper:
             for i in constants.community_resource_finder_url_mapper:                          
                 file_name = '_'.join(list(i.split()))                 
                 csv_sys_path = file_name+"_"+state+constants.csv_extension
-                df.to_csv(csv_sys_path, index=False)
+                if not os.path.exists(csv_sys_path):
+                    df.to_csv(csv_sys_path, index=False)
+                else:
+                    df = pd.read_csv(csv_sys_path)
+                    zipcodes_already_scrapped = df['Zipcode_feeded_to_scrape'].tolist()
+                    zipcodes = [item for item in zipcodes if item not in zipcodes_already_scrapped]
                 self.options = Options()
                 self.options.headless = True
                 self.driver = webdriver.Chrome(options=self.options)                
@@ -177,6 +182,7 @@ class Community_resource_scrapper:
         length = len(scrapped_links)
         s = 0
         while s < length:
+            try:
                 response = requests.get(scrapped_links[s])
                 soup = BeautifulSoup(response.content, "html.parser")
                 for h2 in soup.find_all('h2'):
@@ -243,7 +249,10 @@ class Community_resource_scrapper:
                 #     self.overview_information_data.append(overview_info)
                 # except:
                 #     self.overview_information_data.append("nil")
-                s+=1        
+                s+=1   
+            except Exception as e:    
+                print(f'{e} for zip:{zip}')            
+                s+=1   
         
         
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ from alive_progress import alive_bar
 import logging
 import os
 import re
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -49,8 +50,8 @@ class Community_resource_scrapper:
         self.features_data = []
         self.experiences_data = []
     
-    def community_resource_scrapper(self):    
-        states_to_scrape = ["GA"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
+    def community_resource_scrapper(self, states_to_scrape):    
+        # states_to_scrape = sys.argv[1]#["NY"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
         for state in states_to_scrape:
             zipcodes = zipcode_extractor(state)  
             df = pd.DataFrame(
@@ -256,7 +257,8 @@ class Community_resource_scrapper:
         
         
 if __name__ == '__main__':
+    states_to_scrape = sys.argv[1]
     community_resource_scrapper = Community_resource_scrapper()
     
-    community_resource_scrapper.community_resource_scrapper()
+    community_resource_scrapper.community_resource_scrapper(states_to_scrape=states_to_scrape)
     

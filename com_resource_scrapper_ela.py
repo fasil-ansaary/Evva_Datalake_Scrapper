@@ -257,8 +257,8 @@ class Community_resource_scrapper:
         
         
 if __name__ == '__main__':
-    states_to_scrape = sys.argv[1]
+    states_to_scrape = [sys.argv[1]]
     community_resource_scrapper = Community_resource_scrapper()
-    print(states_to_scrape)
-    # community_resource_scrapper.community_resource_scrapper(states_to_scrape=states_to_scrape)
+    
+    community_resource_scrapper.community_resource_scrapper(states_to_scrape=states_to_scrape)
     

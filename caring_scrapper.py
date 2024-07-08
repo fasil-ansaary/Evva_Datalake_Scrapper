@@ -1,3 +1,29 @@
+"""
+This module scrapes information from a specified website, processes the data, and saves it into CSV format.
+
+Modules:
+    - json: Used to parse JSON data.
+    - pandas as pd: Used to create and manipulate dataframes.
+    - alive_progress: Used to display progress bars.
+    - logging: Used for logging information.
+    - requests: Used for making HTTP requests.
+    - bs4 (BeautifulSoup): Used for parsing HTML and XML documents.
+    - selenium: Used for web scraping.
+    - csv: Used for reading and writing CSV files.
+    - sys: Used for system-specific parameters and functions.
+    - warnings: Used to handle warnings.
+
+Classes:
+    - Caring_scrapper: Scrapes information from a specified website and processes the data.
+
+Functions:
+    - __init__(self): Initializes the class.
+    - run_caring_scrapper(self, states_to_scrape): Runs the scraper to collect data from the website for specified states.
+    - scrape_care_type_info(self, url, zip, care_type, scrapped_list): Scrapes information from the given URL for a specific care type.
+
+Usage:
+    To run the script, pass the states to be scraped as a command-line argument.
+"""
 import json
 import pandas as pd
 from alive_progress import alive_bar
@@ -15,51 +41,74 @@ from controllers.zipcode_extractor import zipcode_extractor
 import resources.constants as constants
 from controllers.url_updater import url_updater
 import csv
+import sys
 import warnings
 
 warnings.filterwarnings(constants.ignore)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(constants.alive_progress_logger)
 
-zipcodes = zipcode_extractor()
-
 
 class Caring_scrapper:
-    def run_caring_scrapper(self):
-        for i in constants.caretype_to_url_mapper: 
-            self.options = Options()
-            self.options.headless = True
-            self.driver = webdriver.Chrome(options=self.options)
-            scrapped_list = []
-            scrapping_url = constants.caretype_to_url_mapper[i]
-            care_type = i
-            file_name = '_'.join(list(i.split())) 
-            with alive_bar(len(zipcodes)) as bar:
-                bar.title(f'Scrapping for {i}:')
-                for zip in zipcodes:
-                    # Set up Selenium                
-                    my_url = url_updater(scrapping_url,zip)
-                        # Call the function to scrape information
-                    scrapped_list=self.scrape_care_type_info(my_url, zip, care_type, scrapped_list)
-                    # Quit the browser
-                    bar()
-            self.driver.quit()
-                # with open(constants.file_path+file_name+constants.csv_extension, mode=constants.write_mode) as csvfile:
-                #     writer = csv.writer(csvfile)
-                #     # Write header
-                #     writer.writerow(constants.header)
-                
-                #     # Write data
-                #     writer.writerows(scrapped_list)
-            df = pd.DataFrame(scrapped_list, columns=constants.header)
-            df.drop_duplicates(subset=['Address'], inplace=True)
-            df.reset_index(inplace=True, drop=True)
-                # pd.set_option('display.max_columns', None)
-                # print(df)
-            df.to_csv(file_name+constants.csv_extension, index=False)
-            logger.info(constants.scrape_message+str(care_type))
+    """
+    A class to scrape information from a specified website and process the data.
+
+    Methods:
+        run_caring_scrapper(self, states_to_scrape): Runs the scraper to collect data from the website for specified states.
+        scrape_care_type_info(self, url, zip, care_type, scrapped_list): Scrapes information from the given URL for a specific care type.
+    """
+    def run_caring_scrapper(self, states_to_scrape):
+        """
+        Runs the scraper to collect data from the website for specified states.
+
+        This function iterates through specified states and zip codes, collects the data,
+        and saves the data into CSV format.
+
+        Args:
+            states_to_scrape (list): List of states to scrape data for.
+        """
+        for state in states_to_scrape:
+            zipcodes = zipcode_extractor(state)  
+            for i in constants.caretype_to_url_mapper: 
+                self.options = Options()
+                self.options.headless = True
+                self.driver = webdriver.Chrome(options=self.options)
+                scrapped_list = []
+                scrapping_url = constants.caretype_to_url_mapper[i]
+                care_type = i
+                file_name = '_'.join(list(i.split())) 
+                with alive_bar(len(zipcodes)) as bar:
+                    bar.title(f'Scrapping {i} for {state}:')
+                    for zip in zipcodes:
+                        # Set up Selenium                
+                        my_url = url_updater(scrapping_url,zip)
+                            # Call the function to scrape information
+                        scrapped_list=self.scrape_care_type_info(my_url, zip, care_type, scrapped_list)
+                        # Quit the browser
+                        bar()
+                self.driver.quit()
+                df = pd.DataFrame(scrapped_list, columns=constants.header)
+                df.drop_duplicates(subset=['Address'], inplace=True)
+                df.reset_index(inplace=True, drop=True)
+                file_path = "./resources/"+file_name+constants.csv_extension
+                df.to_csv(file_path, index=False)
+                logger.info(constants.scrape_message+str(care_type))
     
     def scrape_care_type_info(self, url, zip, care_type, scrapped_list):
+        """
+        Scrapes information from the given URL for a specific care type.
+
+        This function opens the specified URL, collects data, and appends it to the scrapped_list.
+
+        Args:
+            url (str): The URL to scrape information from.
+            zip (str): The zip code being processed.
+            care_type (str): The type of care being scraped.
+            scrapped_list (list): The list to append scraped data to.
+
+        Returns:
+            list: Updated scrapped_list with the scraped data.
+        """
         self.driver.get(url)
 
         # Wait for the entire page to be loaded
@@ -105,8 +154,6 @@ class Caring_scrapper:
     
     
 if __name__ == '__main__':
+    states_to_scrape = [sys.argv[1]]
     caring_scrapping = Caring_scrapper()
-    
-    #geriatrics_scrapper.run_geriatrics_scrapper()
-    # meals_on_wheels_scrapper.run_meals_on_wheels_scrapper()
-    caring_scrapping.run_caring_scrapper()
+    caring_scrapping.run_caring_scrapper(states_to_scrape=states_to_scrape)

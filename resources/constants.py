@@ -22,7 +22,7 @@ caretype_to_url_mapper = {
     
 }
 alive_progress_logger = 'alive_progress'
-geriatrics_csv_file = 'Geriatrics_data_scrapped.csv'
+geriatrics_csv_file = './resources/Geriatrics_data_scrapped.csv'
 geriatrics_success_logger = "Geriatric data successfully scrapped for all locations."
 scrape_message = "Successfully scrapped for care type "
 
@@ -48,6 +48,7 @@ community_resource_finder_url_mapper = {
     "Elder Law Attorneys" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=11&location=",
     "Referral Agencies" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=78&location=",
     "Diagnostic Centers" : "https://www.communityresourcefinder.org/ProviderSearch/Search?ProfileDefinitionId=73&location="
+    
 }
 
 
@@ -86,7 +87,7 @@ Contact = "Contact"
 inplace_json_file = "data.json"
 
 NoSuchElementExceptionLog = "No service available at this pin code"
-meals_on_wheels_csv_file = "meals_on_wheels.csv"
+meals_on_wheels_csv_file = "./resources/meals_on_wheels.csv"
 meals_on_wheels_success_log = "Meals on wheels data successfully scrapped for all locations."
 
 geriatrics_web_page_form_control = 'form-control'

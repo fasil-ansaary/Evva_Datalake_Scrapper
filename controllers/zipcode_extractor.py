@@ -1,7 +1,14 @@
 import pandas as pd
 def zipcode_extractor(state_to_scrape):
     """
-    This function takes a list of state names and returns the corresponding zips for the state.  
+    This function extracts the list of ZIP codes corresponding to a given state name.
+    
+    Args:
+        state_to_scrape (str): A string representing the abbreviation of the US state for which zipcodes are desired.
+        This should be in all uppercase letters.
+        
+    Returns:
+        list: List of ZIP codes corresponding to the given state name. If no zips found, an empty list is returned.    
     """
     # df = pd.read_csv('/Users/fasil/Desktop/scrapper script/Evva_Datalake_Scrapper/resources/uszips.csv')
     # df = pd.read_csv('C:/Users/v2-scrapper/Desktop/Evva_Datalake_Scrapper/resources/uszips.csv')

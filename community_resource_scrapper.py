@@ -1,5 +1,38 @@
 #@V2scrapperevva
 #v2-scrapper
+
+"""
+This module scrapes community resource information from a specified website, processes the data, and saves it into CSV format.
+
+Modules:
+    - json: Used to parse JSON data.
+    - pandas as pd: Used to create and manipulate dataframes.
+    - alive_progress: Used to display progress bars.
+    - logging: Used for logging information.
+    - os: Used for interacting with the operating system.
+    - re: Used for regular expression operations.
+    - sys: Used for system-specific parameters and functions.
+    - selenium: Used for web scraping.
+    - bs4 (BeautifulSoup): Used for parsing HTML and XML documents.
+    - requests: Used for making HTTP requests.
+    - warnings: Used to handle warnings.
+    - time: Used for time-related functions.
+
+Classes:
+    - Community_resource_scrapper: Scrapes community resource information from a specified website and processes the data.
+
+Constants:
+    - constants: Custom constants used throughout the code.
+
+Functions:
+    - __init__(self): Initializes the class with empty lists to store data.
+    - community_resource_scrapper(self, states_to_scrape): Runs the scraper to collect data from the website.
+    - com_res_url_scrapper(self, url, program_name, zip, url_specific_id): Scrapes information from the given URL for a specific zip code.
+    - clean_constructors(self): Clears the data attributes of the class.
+
+Usage:
+    To run the script, pass the states to be scraped as a command-line argument.
+"""
 import json
 import pandas as pd
 from alive_progress import alive_bar
@@ -29,13 +62,39 @@ logger = logging.getLogger(constants.alive_progress_logger)
 
 
 class Community_resource_scrapper:
+    """
+    A class to scrape community resource information from a specified website and process the data.
+
+    Attributes:
+        names (list): Stores the names of individuals or organizations.
+        links (list): Stores the links to the resource pages.
+        addresses (list): Stores the addresses of individuals or organizations.
+        contact (list): Stores the contact numbers of individuals or organizations.
+        program (list): Stores the program names.
+        distances (list): Stores the distances to the resources.
+        state (list): Stores the states of the resources.
+        city (list): Stores the cities of the resources.
+        zipcode (list): Stores the zip codes of the resources.
+        gen_information_data (list): Stores general information about the resources.
+        staff_information_data (list): Stores staff information about the resources.
+        service_offered_data (list): Stores services offered by the resources.
+        financial_information_data (list): Stores financial information about the resources.
+        availability_information_data (list): Stores availability information about the resources.
+        pricing_availability_data (list): Stores pricing and availability information about the resources.
+        overview_information_data (list): Stores overview information about the resources.
+        features_data (list): Stores features data about the resources.
+        experiences_data (list): Stores experiences data about the resources.
+    """
+
     def __init__(self):
+        """
+        Initializes the class with empty lists to store data.
+        """
         self.names =[]
         self.links =[]
         self.addresses = []
         self.contact = []        
         self.program = []
-        # self.lattitude = []
         self.distances = []
         self.state = []
         self.city = []
@@ -52,6 +111,15 @@ class Community_resource_scrapper:
     
     def community_resource_scrapper(self, states_to_scrape):    
         # states_to_scrape = sys.argv[1]#["NY"]#, "MI", "IL", "CA", "TX", "NY", "GA"]
+        """
+        Runs the scraper to collect data from the community resource website for specified states.
+
+        This function iterates through specified states and zip codes, collects the data,
+        and saves the data into CSV format.
+
+        Args:
+            states_to_scrape (list): List of states to scrape data for.
+        """
         for state in states_to_scrape:
             zipcodes = zipcode_extractor(state)  
             df = pd.DataFrame(
@@ -70,7 +138,7 @@ class Community_resource_scrapper:
                     )                        
             for i in constants.community_resource_finder_url_mapper:                          
                 file_name = '_'.join(list(i.split()))                 
-                csv_sys_path = file_name+"_"+state+constants.csv_extension
+                csv_sys_path = "./resources/"+file_name+"_"+state+constants.csv_extension
                 if not os.path.exists(csv_sys_path):
                     df.to_csv(csv_sys_path, index=False)
                 else:
@@ -115,6 +183,9 @@ class Community_resource_scrapper:
                 logger.info(constants.scrape_message+str(care_type))               
     
     def clean_constructors(self):
+        """
+        Clears the data attributes of the class.
+        """
         self.names.clear()
         self.links.clear()
         self.addresses.clear()
@@ -134,6 +205,18 @@ class Community_resource_scrapper:
         
     
     def com_res_url_scrapper(self, url, program_name, zip, url_specific_id):
+        """
+        Scrapes information from the given URL for a specific zip code.
+
+        This function opens the specified URL, collects names, addresses, and contact numbers,
+        and appends them to the respective class attributes.
+
+        Args:
+            url (str): The URL to scrape information from.
+            program_name (str): The name of the program being scraped.
+            zip (str): The zip code being processed.
+            url_specific_id (str): The specific ID for the URL being scraped.
+        """
         self.driver.get(url)
         scrapped_links = []
         while True:

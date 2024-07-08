@@ -21,3 +21,16 @@ setup(
         'uszipcode',
     ]
 )
+
+
+"""
+Virtual machine userId and passwords
+
+Linux machine:
+userId: evva-datalake-scrapper
+password: Evva-datalake-scrapper1
+
+Windows machine:
+userId: @V2scrapperevva
+password: v2-scrapper
+"""

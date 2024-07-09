@@ -11,10 +11,10 @@ def zipcode_extractor(state_to_scrape):
         list: List of ZIP codes corresponding to the given state name. If no zips found, an empty list is returned.    
     """
     # for windows based VM uncomment the below file hierarchy
-    df = pd.read_csv('C:/Users/v2-scrapper/Desktop/Evva_Datalake_Scrapper/resources/uszips.csv')
+    # df = pd.read_csv('C:/Users/v2-scrapper/Desktop/Evva_Datalake_Scrapper/resources/uszips.csv')
     
     # for linux based VM uncomment the below file hierarchy
-    # df = pd.read_csv('/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/uszips.csv')
+    df = pd.read_csv('/home/evva-datalake-scrapper/Evva_Datalake_Scrapper/resources/uszips.csv')
     zipcodes = []
     filtered_values = df.loc[df['state_id'] == state_to_scrape, 'zip'].values
     for value in filtered_values:

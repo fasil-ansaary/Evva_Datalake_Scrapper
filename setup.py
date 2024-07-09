@@ -31,6 +31,6 @@ userId: evva-datalake-scrapper
 password: Evva-datalake-scrapper1
 
 Windows machine:
-userId: @V2scrapperevva
-password: v2-scrapper
+userID: v2-scrapper
+password: @V2scrapperevva
 """

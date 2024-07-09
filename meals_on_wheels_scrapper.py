@@ -153,6 +153,7 @@ class Meals_on_wheels_scrapper:
             logger.info(f"No service found at {zip}")
         
 if __name__ == '__main__':
-    states_to_scrape = [sys.argv[1]]
+    states_obtained = sys.argv[1]
+    states_to_scrape = [i for i in states_obtained.split(',')]
     meals_on_wheels_scrapper = Meals_on_wheels_scrapper()
     meals_on_wheels_scrapper.run_meals_on_wheels_scrapper(states_to_scrape=states_to_scrape)

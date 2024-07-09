@@ -154,6 +154,7 @@ class Caring_scrapper:
     
     
 if __name__ == '__main__':
-    states_to_scrape = [sys.argv[1]]
+    states_obtained = sys.argv[1]
+    states_to_scrape = [i for i in states_obtained.split(',')]
     caring_scrapping = Caring_scrapper()
     caring_scrapping.run_caring_scrapper(states_to_scrape=states_to_scrape)
